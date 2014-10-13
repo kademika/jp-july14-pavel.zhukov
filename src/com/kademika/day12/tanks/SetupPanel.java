@@ -43,10 +43,13 @@ public class SetupPanel extends JPanel {
             public void actionPerformed(ActionEvent arg0) {
                 idTank = 1;
                 frame.loadActionField(idTank);
+                System.out.println("RUN EDT: " + SwingUtilities.isEventDispatchThread());
                 SwingWorker worker = new SwingWorker<Void, Void>() {
                     @Override
                     protected Void doInBackground() throws Exception {
                         frame.actionField.runTheGame();
+//                        frame.actionField.setVisible(true);
+//                        frame.actionField.setFocusable(true);
 //                        frame.actionField.getKeyAdapter();
                         return null;
                     }
@@ -61,10 +64,13 @@ public class SetupPanel extends JPanel {
             public void actionPerformed(ActionEvent arg0) {
                 idTank = 2;
                 frame.loadActionField(idTank);
+                System.out.println("RUN EDT: " + SwingUtilities.isEventDispatchThread());
                 SwingWorker worker = new SwingWorker<Void, Void>() {
                     @Override
                     protected Void doInBackground() throws Exception {
                         frame.actionField.runTheGame();
+//                        frame.actionField.setVisible(true);
+//                        frame.actionField.setFocusable(true);
 //                        frame.actionField.getKeyAdapter();
                         return null;
                     }
@@ -89,6 +95,7 @@ public class SetupPanel extends JPanel {
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
+                System.out.println("RUN EDT: " + SwingUtilities.isEventDispatchThread());
                 SwingWorker worker = new SwingWorker<Void, Void>() {
                     @Override
                     protected Void doInBackground() throws Exception {

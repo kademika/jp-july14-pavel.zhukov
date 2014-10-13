@@ -14,6 +14,7 @@ public class GameFrame extends JFrame {
     GameOverPanel gameOverPanel;
 
     public GameFrame() throws Exception {
+        System.out.println("SETUP EDT: " + SwingUtilities.isEventDispatchThread());
         init();
         loadSetupPanel();
     }
@@ -53,7 +54,10 @@ public class GameFrame extends JFrame {
         this.getContentPane().add(actionField);
         this.revalidate();
         this.pack();
-
+        actionField.setVisible(true);
+        this.setVisible(true);
+        actionField.setFocusable(true);
+        actionField.getKeyAdapter();
 
 //        this.addKeyListener(actionField.getKeyAdapter());
 

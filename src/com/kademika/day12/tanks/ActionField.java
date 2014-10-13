@@ -32,7 +32,7 @@ public class ActionField extends JPanel {
     private Bullet agrBullet;
     private Bullet defBullet;
     private GameFrame frame;
-
+    private ActionField actionField;
 
     public ActionField(GameFrame frame) throws Exception {
         file = new File(fileName);
@@ -112,13 +112,14 @@ public class ActionField extends JPanel {
     }
 
     private void actionOfDefender() {
+        actionOfKey();
 //        this.setVisible(true);
 //        this.setFocusable(true);
 //        SwingWorker worker = new SwingWorker<Void, Void>() {
 //            @Override
 //            protected Void doInBackground() throws Exception {
-//
-//                getKeyAdapter();
+//                actionOfKey();
+////                getKeyAdapter();
 //                return null;
 //            }
 //
@@ -130,7 +131,10 @@ public class ActionField extends JPanel {
 //
                 while (!aggressor.isDestroyed() && !defender.isDestroyed()) {
                     defender.isEnemyTank(aggressor);
-                    getKeyAdapter();
+//                    actionOfKey();
+//                    actionField.setVisible(true);
+//actionField.setFocusable(true);
+//                   getKeyAdapter();
                 }
                 frame.getGameOver();
                 return;
@@ -140,14 +144,16 @@ public class ActionField extends JPanel {
 
     }
 
-//    private void actionOfKey(){
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                keyAction();
-//            }
-//        }).start();
-//    }
+    public void actionOfKey() {
+        this.addKeyListener(getKeyAdapter());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                getKeyAdapter();
+            }
+        }).start();
+    }
 
     public KeyAdapter getKeyAdapter() {
         return new KeyAdapter() {
@@ -160,6 +166,7 @@ public class ActionField extends JPanel {
                         try {
                             processTurn(defender);
                             processAction(Action.MOVE, defender);
+                            System.out.println("123");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -170,6 +177,7 @@ public class ActionField extends JPanel {
                         try {
                             processTurn(defender);
                             processAction(Action.MOVE, defender);
+                            System.out.println("123");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -180,6 +188,7 @@ public class ActionField extends JPanel {
                         try {
                             processTurn(defender);
                             processAction(Action.MOVE, defender);
+                            System.out.println("123");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -190,6 +199,7 @@ public class ActionField extends JPanel {
                         try {
                             processTurn(defender);
                             processAction(Action.MOVE, defender);
+                            System.out.println("123");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -198,6 +208,7 @@ public class ActionField extends JPanel {
                         try {
                             processTurn(defender);
                             processAction(Action.FIRE, defender);
+                            System.out.println("123");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -283,6 +294,7 @@ public class ActionField extends JPanel {
                     tank.updateX(step);
                 }
                 covered += step;
+                System.out.println("MOVE EDT: " + SwingUtilities.isEventDispatchThread());
                 repaint();
                 Thread.sleep(tank.getSpeed());
             }
@@ -320,7 +332,7 @@ public class ActionField extends JPanel {
                                 if (processInterception()) {
                                     bullet.destroy();
                                 }
-
+                                System.out.println("FIRE EDT: " + SwingUtilities.isEventDispatchThread());
                                 repaint();
                                 try {
                                     Thread.sleep(bullet.getSpeed());
@@ -476,17 +488,17 @@ public class ActionField extends JPanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        System.out.println("REPAINTING AF");
         bf.draw(g);
         defender.draw(g);
-//        if (bullet != null) {
         bullet.draw(g);
-//        }
         aggressor.draw(g);
         bf.drawWater(g);
     }
 
     private void independantScreenUpdate() {
+        this.setVisible(true);
+        this.setFocusable(true);
         new Thread(new Runnable() {
             @Override
             public void run() {
