@@ -114,7 +114,7 @@ class Utils {
         try (
                 InputStream in = socket.getInputStream();
                 OutputStream out = socket.getOutputStream();
-                ObjectOutputStream outInFile = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream("output.dat")));
+                ObjectOutputStream outInFile = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         ) {
             int data;
             int c = 0;
@@ -128,18 +128,16 @@ class Utils {
                     byte[] buf = new byte[str.length()];
                     int k = 0;
                     for (String s : str.split(" ")) {
-                        buf[k] = Byte.parseByte(s);
-                        k++;
-//                        break;
-//                        out.write(Integer.parseInt(s));
-//                        byte[] buf = { 0, 0, 4, 18, 0, 0, 4, 48, 0, 0, 4, 72};
-//                        String s = new String(buf, "UTF-8");
-//                        System.out.println(s);
-//                    System.out.print(String.valueOf(Byte.parseByte(s))); //Integer.parseInt(s));
+                        if (!s.equals("10")) {
+                            buf[k] = Byte.parseByte(s);
+                            k++;
+                        }
                     }
                     String command = new String(buf, 0, k);
+                    System.out.println(command);
                     if (command.equals("get data")) {
-                        out.write("process started".getBytes());
+                        out.write("ok".getBytes());
+                        out.write(13);
                         ArrayList<Transaction> trans = shop.getTransactions();
                         for (Transaction tr : trans) {
                             outInFile.writeObject(tr);
@@ -147,9 +145,7 @@ class Utils {
                         outInFile.flush();
                         outInFile.close();
                     }
-//                    out.write(10);
-//                    out.write(13);
-//                    stringBuilder = new StringBuilder();
+
                 } else {
                     stringBuilder.append(data + " ");
                 }
