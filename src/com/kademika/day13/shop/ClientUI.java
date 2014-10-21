@@ -1,17 +1,7 @@
 package com.kademika.day13.shop;
 
-import com.kademika.day13.shop.f15to17shop.*;
-import com.kademika.day13.shop.f15to17shop.Report;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 /**
@@ -38,7 +28,7 @@ public class ClientUI {
             int c = 0;
             while ((data = in.read()) != -1) {
                 c = data;
-//                data = transmogrify(c);
+
 
 
                 if (c == 13) {
