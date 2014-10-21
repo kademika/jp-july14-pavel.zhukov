@@ -58,10 +58,10 @@ public class ActionField extends JPanel {
     }
 
     public void runTheGame() throws Exception {
-        independantScreenUpdate();
-        actionOfAggressor();
         actionOfDefender();
+        actionOfAggressor();
         actionOfBullet();
+        independantScreenUpdate();
 
 
 //        fw = new FileWriter(file);

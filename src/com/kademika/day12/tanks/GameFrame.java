@@ -36,10 +36,13 @@ public class GameFrame extends JFrame {
         this.getContentPane().add(setupPanel);
         this.pack();
         setupPanel.setVisible(true);
+        setupPanel.setFocusable(true);
     }
 
     public void loadActionField(int num) {
         actionField.init(num);
+        setupPanel.setVisible(false);
+        setupPanel.setFocusable(false);
         loadField();
     }
 

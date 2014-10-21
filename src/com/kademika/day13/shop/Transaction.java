@@ -3,7 +3,9 @@ package com.kademika.day13.shop;
 
 import com.kademika.day13.shop.watches.Watch;
 
-public class Transaction {
+import java.io.Serializable;
+
+public class Transaction implements Serializable{
     private int numTransaction;
     private Client client;
     private Watch watch;
@@ -28,15 +30,15 @@ public class Transaction {
 
     public double discount(Watch watch, int num) {
         double total = watch.getPrice() * number;
-        System.out.println(total);
+//        System.out.println(total);
         if (total >= 1000) {
             total = total * 0.9;
-            System.out.println("Discount 10%");
+//            System.out.println("Discount 10%");
         } else if (total >= 500 && total < 1000) {
             total = total * 0.95;
-            System.out.println("Discount 5%");
+//            System.out.println("Discount 5%");
         }
-        System.out.println(total);
+//        System.out.println(total);
         return total;
     }
 

@@ -1,9 +1,11 @@
 package com.kademika.day13.shop;
 
+import java.io.Serializable;
+
 /**
  * Created by Admin on 05.07.14.
  */
-public class Personal {
+public class Personal implements Serializable {
     private String fio;
     private String email;
     private int age;

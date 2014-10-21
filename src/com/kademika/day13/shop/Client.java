@@ -1,6 +1,8 @@
 package com.kademika.day13.shop;
 
-public class Client {
+import java.io.Serializable;
+
+public class Client implements Serializable {
     private String fio;
     private String email;
     private String tel;

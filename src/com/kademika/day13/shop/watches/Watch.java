@@ -1,6 +1,8 @@
 package com.kademika.day13.shop.watches;
 
-public abstract class Watch {
+import java.io.Serializable;
+
+public abstract class Watch implements Serializable {
     protected String name;
     protected int weight;
     protected WatchType type;
