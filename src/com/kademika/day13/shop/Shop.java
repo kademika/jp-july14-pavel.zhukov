@@ -30,11 +30,35 @@ public class Shop {
         quartzs = new ArrayList<>();
         deleteWatches = new ArrayList<>();
         boughtWatches = new ArrayList<>();
-        boughtWatchesPerWeek = new ArrayList[7];
+        boughtWatchesPerWeek = new ArrayList[]{
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>()
+        };
         numberBoughtWatches = new ArrayList<>();
-        numBoughtWatchesPerWeek = new ArrayList[7];
+        numBoughtWatchesPerWeek = new ArrayList[]{
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>()
+        };
         transactions = new ArrayList<>();
-        transactionsPerWeek = new ArrayList[7];
+        transactionsPerWeek = new ArrayList[]{
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
+                new ArrayList<>()
+        };
         report = new Report();
 
         watches = arrayWatches;
@@ -97,7 +121,7 @@ public class Shop {
 
     private void addTransaction(Transaction transaction, int day) {
         transactions.add(transaction);
-        transactionsPerWeek[day - 1] = transactions;
+        transactionsPerWeek[day - 1].add(transaction);
 
     }
 
@@ -139,9 +163,9 @@ public class Shop {
 
     private void setBuyWatch(Watch watch, int number, int day) {
         boughtWatches.add(watch);
-        boughtWatchesPerWeek[day - 1] = boughtWatches;
+        boughtWatchesPerWeek[day - 1].add(watch);
         numberBoughtWatches.add(number);
-        numBoughtWatchesPerWeek[day - 1] = numberBoughtWatches;
+        numBoughtWatchesPerWeek[day - 1].add(number);
     }
 
     // ****************************************************************************

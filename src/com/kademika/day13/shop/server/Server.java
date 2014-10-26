@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Server {
     private static Shop shop;
+
     public static void main(String[] args) throws Exception {
         TestData td = new TestData();
         Report report = new Report();
@@ -138,14 +139,14 @@ class Utils {
                     if (command.equals("get data")) {
                         out.write("ok".getBytes());
                         out.write(13);
-                        ArrayList<Transaction> trans = shop.getTransactions();
+                        ArrayList<Transaction> trans = shop.getTransactionsPerDay()[6];
                         for (Transaction tr : trans) {
                             outInFile.writeObject(tr);
                         }
-                        outInFile.flush();
-                        outInFile.close();
+//                        outInFile.flush();
+//                        outInFile.close();
                     }
-
+                    outInFile.flush();
                 } else {
                     stringBuilder.append(data + " ");
                 }
