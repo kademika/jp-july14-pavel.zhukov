@@ -137,15 +137,9 @@ class Utils {
                     if (command.equals("get data")) {
                         out.write("ok".getBytes());
                         out.write(13);
-                        ArrayList<Transaction> trans = shop.getTransactionsPerDay()[4];
-                        int p = 0;
+                        ArrayList<Transaction> trans = shop.getTransactionsPerDay()[6];
                         for (Transaction tr : trans) {
                             outInFile.writeObject(tr);
-                            p++;
-                            if (p == 3) {
-                                p = 0;
-                                outInFile.flush();
-                            }
                         }
 //                        outInFile.writeObject(trans);
                         outInFile.flush();
