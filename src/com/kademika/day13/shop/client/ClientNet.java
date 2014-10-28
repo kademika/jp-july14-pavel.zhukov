@@ -1,4 +1,6 @@
-package com.kademika.day13.shop;
+package com.kademika.day13.shop.client;
+
+import com.kademika.day13.shop.Transaction;
 
 import java.io.*;
 import java.net.Socket;
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 21.10.2014.
  */
-public class ClientUI {
+public class ClientNet {
 
     public static void main(String[] args) {
         createSocket();
@@ -45,9 +47,18 @@ public class ClientUI {
                     if (command.equals("ok")) {
                         ObjectInputStream inFile = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
                         try {
-                            while (inFile.readObject() != null) {
-                                Transaction tr = (Transaction) inFile.readObject();
-                                list.add(tr);
+                            data = 0;
+//                            while ((data = in.read()) != -1) {
+                            while (true) {
+                                if (inFile.readObject() != null) {
+//                            while (inFile.readObject() != null) {
+//                                list = (ArrayList<Transaction>)  inFile.readObject();
+                                    Transaction tr = (Transaction) inFile.readObject();
+                                    list.add(tr);
+//                                    inFile.mark();
+                                } else {
+                                    break;
+                                }
                             }
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();

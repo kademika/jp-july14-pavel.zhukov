@@ -121,8 +121,6 @@ class Utils {
             int c = 0;
             while ((data = in.read()) != -1) {
                 c = data;
-//                data = transmogrify(c);
-
 
                 if (c == 13) {
                     String str = stringBuilder.toString();
@@ -139,14 +137,21 @@ class Utils {
                     if (command.equals("get data")) {
                         out.write("ok".getBytes());
                         out.write(13);
-                        ArrayList<Transaction> trans = shop.getTransactionsPerDay()[6];
+                        ArrayList<Transaction> trans = shop.getTransactionsPerDay()[4];
+                        int p = 0;
                         for (Transaction tr : trans) {
                             outInFile.writeObject(tr);
+                            p++;
+                            if (p == 3) {
+                                p = 0;
+                                outInFile.flush();
+                            }
                         }
-//                        outInFile.flush();
+//                        outInFile.writeObject(trans);
+                        outInFile.flush();
 //                        outInFile.close();
                     }
-                    outInFile.flush();
+//                    outInFile.flush();
                 } else {
                     stringBuilder.append(data + " ");
                 }
