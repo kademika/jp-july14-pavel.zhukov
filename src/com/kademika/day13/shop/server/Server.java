@@ -151,7 +151,6 @@ class Utils {
                         outInFile.flush();
 //                        outInFile.close();
                     }
-//                    outInFile.flush();
                 } else {
                     stringBuilder.append(data + " ");
                 }

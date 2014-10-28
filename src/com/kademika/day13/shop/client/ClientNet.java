@@ -49,16 +49,11 @@ public class ClientNet {
                         try {
                             data = 0;
 //                            while ((data = in.read()) != -1) {
-                            while (true) {
-                                if (inFile.readObject() != null) {
-//                            while (inFile.readObject() != null) {
+                            while (inFile.readObject() != null) {
 //                                list = (ArrayList<Transaction>)  inFile.readObject();
                                     Transaction tr = (Transaction) inFile.readObject();
                                     list.add(tr);
-//                                    inFile.mark();
-                                } else {
-                                    break;
-                                }
+
                             }
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
