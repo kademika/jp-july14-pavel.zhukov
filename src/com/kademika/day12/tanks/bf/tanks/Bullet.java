@@ -88,4 +88,7 @@ public class Bullet implements Drawable, Destroyable {
         return direction;
     }
 
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
+    }
 }

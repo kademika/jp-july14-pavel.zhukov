@@ -1,9 +1,6 @@
 package com.kademika.day12.tanks;
 
-import com.kademika.day12.tanks.bf.tanks.*;
-
 import javax.swing.*;
-import javax.swing.Action;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -14,7 +11,7 @@ public class GameFrame extends JFrame {
     GameOverPanel gameOverPanel;
 
     public GameFrame() throws Exception {
-        System.out.println("SETUP EDT: " + SwingUtilities.isEventDispatchThread());
+//        System.out.println("SETUP EDT: " + SwingUtilities.isEventDispatchThread());
         init();
         loadSetupPanel();
     }
@@ -23,12 +20,35 @@ public class GameFrame extends JFrame {
         this.setTitle("TANKS, start the game");
         this.setLocation(300, 300);
         this.setMinimumSize(new Dimension(250, 250));
+
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (actionField.inFocus) {
+                    if (e.getKeyCode() == 37 || e.getKeyCode() == 38 || e.getKeyCode() == 39 || e.getKeyCode() == 40 ||
+                            e.getKeyCode() == 87 || e.getKeyCode() == 83 || e.getKeyCode() == 65 || e.getKeyCode() == 68 ||
+                            e.getKeyCode() == 32) {
+                        actionField.actionTank(e);
+                    }
+                }
+            }
+
+//            @Override
+//            public void keyReleased(KeyEvent e) {
+//                if (actionField.inFocus) {
+//                    actionField.keyPressed = false;
+////                    actionField.isNotPressed();
+//                }
+//            }
+        });
         setupPanel = new SetupPanel(this);
         actionField = new ActionField(this);
         gameOverPanel = new GameOverPanel(this);
+
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.getContentPane().add(setupPanel);
         this.setVisible(true);
+        this.setFocusable(true);
     }
 
     public void loadSetupPanel() {
@@ -36,13 +56,13 @@ public class GameFrame extends JFrame {
         this.getContentPane().add(setupPanel);
         this.pack();
         setupPanel.setVisible(true);
-        setupPanel.setFocusable(true);
+//        setupPanel.setFocusable(true);
     }
 
     public void loadActionField(int num) {
         actionField.init(num);
         setupPanel.setVisible(false);
-        setupPanel.setFocusable(false);
+//        setupPanel.setFocusable(false);
         loadField();
     }
 
@@ -58,9 +78,11 @@ public class GameFrame extends JFrame {
         this.revalidate();
         this.pack();
         actionField.setVisible(true);
+        actionField.setFocusable(false);
         this.setVisible(true);
-        actionField.setFocusable(true);
-        actionField.getKeyAdapter();
+//        this.setFocusable(false);
+//        actionField.setFocusable(true);
+//        actionField.getKeyAdapter();
 
 //        this.addKeyListener(actionField.getKeyAdapter());
 

@@ -9,7 +9,6 @@ import com.kademika.day12.tanks.bf.tanks.Action;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
@@ -33,13 +32,14 @@ public class ActionField extends JPanel {
     private Bullet defBullet;
     private GameFrame frame;
     private ActionField actionField;
+    public boolean inFocus;
 
     public ActionField(GameFrame frame) throws Exception {
         file = new File(fileName);
         stringBuilder = new StringBuilder();
         this.frame = frame;
-    }
 
+    }
 
     public void init(int num) {
         bf = new BattleField();
@@ -54,10 +54,13 @@ public class ActionField extends JPanel {
             stringBuilder.append("2(" + aggressor.getX() + "_" + aggressor.getY() + "_" + defender.getX() + "_" + defender.getY() + ")");
         }
         bullet = new Bullet(-100, -100, Direction.NONE);
+        agrBullet = new Bullet(-100, -100, Direction.NONE);
+        defBullet = new Bullet(-100, -100, Direction.NONE);
         bulletList = new ArrayList<>();
     }
 
     public void runTheGame() throws Exception {
+        inFocus = true;
         actionOfDefender();
         actionOfAggressor();
         actionOfBullet();
@@ -112,112 +115,91 @@ public class ActionField extends JPanel {
     }
 
     private void actionOfDefender() {
-        actionOfKey();
-//        this.setVisible(true);
-//        this.setFocusable(true);
-//        SwingWorker worker = new SwingWorker<Void, Void>() {
-//            @Override
-//            protected Void doInBackground() throws Exception {
-//                actionOfKey();
-////                getKeyAdapter();
-//                return null;
-//            }
-//
-//        };
-//        worker.execute();
         new Thread(new Runnable() {
             @Override
             public void run() {
-//
                 while (!aggressor.isDestroyed() && !defender.isDestroyed()) {
                     defender.isEnemyTank(aggressor);
-//                    actionOfKey();
-//                    actionField.setVisible(true);
-//actionField.setFocusable(true);
-//                   getKeyAdapter();
                 }
                 frame.getGameOver();
                 return;
             }
         }).start();
-
-
     }
 
-    public void actionOfKey() {
-        this.addKeyListener(getKeyAdapter());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
 
-                getKeyAdapter();
-            }
-        }).start();
-    }
-
-    public KeyAdapter getKeyAdapter() {
-        return new KeyAdapter() {
-
-            public void keyPressed(KeyEvent ke) {
-                switch (ke.getKeyCode()) {
-                    case KeyEvent.VK_W:
-                    case KeyEvent.VK_UP:
-                        defender.setDirection(Direction.UP);
-                        try {
-                            processTurn(defender);
-                            processAction(Action.MOVE, defender);
-                            System.out.println("123");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case KeyEvent.VK_A:
-                    case KeyEvent.VK_LEFT:
-                        defender.setDirection(Direction.LEFT);
-                        try {
-                            processTurn(defender);
-                            processAction(Action.MOVE, defender);
-                            System.out.println("123");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case KeyEvent.VK_S:
-                    case KeyEvent.VK_DOWN:
-                        defender.setDirection(Direction.DOWN);
-                        try {
-                            processTurn(defender);
-                            processAction(Action.MOVE, defender);
-                            System.out.println("123");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case KeyEvent.VK_D:
-                    case KeyEvent.VK_RIGHT:
-                        defender.setDirection(Direction.RIGHT);
-                        try {
-                            processTurn(defender);
-                            processAction(Action.MOVE, defender);
-                            System.out.println("123");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        try {
-                            processTurn(defender);
-                            processAction(Action.FIRE, defender);
-                            System.out.println("123");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
+    public void actionTank(KeyEvent ke) {
+        switch (ke.getKeyCode()) {
+            case KeyEvent.VK_W:
+            case KeyEvent.VK_UP:
+                if (ke.isShiftDown()) {
+                    defender.setDirection(Direction.UP);
+                    try {
+                        processTurn(defender);
+                        processAction(Action.MOVE, defender);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                } else {
+                    defender.setDirection(Direction.UP);
+                    break;
                 }
-            }
-        };
+            case KeyEvent.VK_A:
+            case KeyEvent.VK_LEFT:
+                if (ke.isShiftDown()) {
+                    defender.setDirection(Direction.LEFT);
+                    try {
+                        processTurn(defender);
+                        processAction(Action.MOVE, defender);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                } else {
+                    defender.setDirection(Direction.LEFT);
+                    break;
+                }
+            case KeyEvent.VK_S:
+            case KeyEvent.VK_DOWN:
+                if (ke.isShiftDown()) {
+                    defender.setDirection(Direction.DOWN);
+                    try {
+                        processTurn(defender);
+                        processAction(Action.MOVE, defender);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                } else {
+                    defender.setDirection(Direction.DOWN);
+                    break;
+                }
+            case KeyEvent.VK_D:
+            case KeyEvent.VK_RIGHT:
+                if (ke.isShiftDown()) {
+                    defender.setDirection(Direction.RIGHT);
+                    try {
+                        processTurn(defender);
+                        processAction(Action.MOVE, defender);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                } else {
+                    defender.setDirection(Direction.RIGHT);
+                    break;
+                }
+            case KeyEvent.VK_SPACE:
+                try {
+                    processTurn(defender);
+                    processAction(Action.FIRE, defender);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
     }
-
 
     private void processAction(Action a, AbstractTank t) throws Exception {
         if (t instanceof T34) {
@@ -230,8 +212,15 @@ public class ActionField extends JPanel {
         if (a == Action.MOVE) {
             processMove(t);
         } else if (a == Action.FIRE) {
+            if (t instanceof T34) {
+                defBullet = t.fire();
+                defBullet.setDestroyed(false);
+            } else {
+                agrBullet = t.fire();
+                agrBullet.setDestroyed(false);
+            }
             processTurn(t);
-            processFire(t.fire());
+//            processFire(t.fire());
         }
         stringBuilder.append("_");
     }
@@ -248,9 +237,8 @@ public class ActionField extends JPanel {
         for (int i = 0; i < tank.getMovePath(); i++) {
             int covered = 0;
 
-            String tankQuadrant = getQuadrant(tank.getX(), tank.getY());
-            int v = Integer.parseInt(tankQuadrant.split("_")[0]);
-            int h = Integer.parseInt(tankQuadrant.split("_")[1]);
+            String tankQuadrant;
+            int v = 0, h = 0;
 
             if ((direction == Direction.UP && tank.getY() == 0)
                     || (direction == Direction.DOWN && tank.getY() >= 512)
@@ -262,13 +250,25 @@ public class ActionField extends JPanel {
             }
 
             if (direction == Direction.UP) {
-                v--;
+                tankQuadrant = getQuadrant(tank.getX(), tank.getY() - 1);
+                v = Integer.parseInt(tankQuadrant.split("_")[0]);
+                h = Integer.parseInt(tankQuadrant.split("_")[1]);
+//                v--;
             } else if (direction == Direction.DOWN) {
-                v++;
+                tankQuadrant = getQuadrant(tank.getX(), tank.getY() + 65);
+                v = Integer.parseInt(tankQuadrant.split("_")[0]);
+                h = Integer.parseInt(tankQuadrant.split("_")[1]);
+//                v++;
             } else if (direction == Direction.RIGHT) {
-                h++;
+                tankQuadrant = getQuadrant(tank.getX() + 65, tank.getY());
+                v = Integer.parseInt(tankQuadrant.split("_")[0]);
+                h = Integer.parseInt(tankQuadrant.split("_")[1]);
+//                h++;
             } else if (direction == Direction.LEFT) {
-                h--;
+                tankQuadrant = getQuadrant(tank.getX() - 1, tank.getY());
+                v = Integer.parseInt(tankQuadrant.split("_")[0]);
+                h = Integer.parseInt(tankQuadrant.split("_")[1]);
+//                h--;
             }
 
 
@@ -283,21 +283,21 @@ public class ActionField extends JPanel {
             }
 
 
-            while (covered < 64) {
-                if (direction == Direction.UP) {
-                    tank.updateY(-step);
-                } else if (direction == Direction.DOWN) {
-                    tank.updateY(step);
-                } else if (direction == Direction.LEFT) {
-                    tank.updateX(-step);
-                } else {
-                    tank.updateX(step);
-                }
-                covered += step;
-                System.out.println("MOVE EDT: " + SwingUtilities.isEventDispatchThread());
-                repaint();
-                Thread.sleep(tank.getSpeed());
+//            while (covered < 64) {
+            if (direction == Direction.UP) {
+                tank.updateY(-step);
+            } else if (direction == Direction.DOWN) {
+                tank.updateY(step);
+            } else if (direction == Direction.LEFT) {
+                tank.updateX(-step);
+            } else {
+                tank.updateX(step);
             }
+//                covered += step;
+//                System.out.println("MOVE EDT: " + SwingUtilities.isEventDispatchThread());
+            repaint();
+//            Thread.sleep(tank.getSpeed());
+//            }
         }
     }
 
@@ -309,54 +309,96 @@ public class ActionField extends JPanel {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                int step = 1;
                 while (true) {
-                    while (bulletList.size() > 0) {
-//                        for (Bullet b : bulletList) {
+                    if (!defBullet.isDestroyed()) {
+//                        bullet = defBullet;
+                        while ((defBullet.getX() > -14 && defBullet.getX() < 590)
+                                && (defBullet.getY() > -14 && defBullet.getY() < 590)) {
+                            if (defBullet.getDirection() == Direction.UP) {
+                                defBullet.updateY(-step);
+                            } else if (defBullet.getDirection() == Direction.DOWN) {
+                                defBullet.updateY(step);
+                            } else if (defBullet.getDirection() == Direction.LEFT) {
+                                defBullet.updateX(-step);
+                            } else {
+                                defBullet.updateX(step);
+                            }
+                            if (processInterception(defBullet)) {
+                                defBullet.destroy();
+                            }
+                        }
 
-
-                        bullet = bulletList.get(0);
-                        if (bullet != null) {
-                            int step = 1;
-
-                            while ((bullet.getX() > -14 && bullet.getX() < 590)
-                                    && (bullet.getY() > -14 && bullet.getY() < 590)) {
-                                if (bullet.getDirection() == Direction.UP) {
-                                    bullet.updateY(-step);
-                                } else if (bullet.getDirection() == Direction.DOWN) {
-                                    bullet.updateY(step);
-                                } else if (bullet.getDirection() == Direction.LEFT) {
-                                    bullet.updateX(-step);
-                                } else {
-                                    bullet.updateX(step);
-                                }
-                                if (processInterception()) {
-                                    bullet.destroy();
-                                }
-                                System.out.println("FIRE EDT: " + SwingUtilities.isEventDispatchThread());
-                                repaint();
-                                try {
-                                    Thread.sleep(bullet.getSpeed());
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                if (bullet.isDestroyed()) {
-                                    bulletList.remove(bullet);
-                                    break;
-                                }
+                    }
+                    if (!agrBullet.isDestroyed()) {
+//                        bullet = agrBullet;
+                        while ((agrBullet.getX() > -14 && agrBullet.getX() < 590)
+                                && (agrBullet.getY() > -14 && agrBullet.getY() < 590)) {
+                            if (agrBullet.getDirection() == Direction.UP) {
+                                agrBullet.updateY(-step);
+                            } else if (agrBullet.getDirection() == Direction.DOWN) {
+                                agrBullet.updateY(step);
+                            } else if (agrBullet.getDirection() == Direction.LEFT) {
+                                agrBullet.updateX(-step);
+                            } else {
+                                agrBullet.updateX(step);
+                            }
+                            if (processInterception(agrBullet)) {
+                                agrBullet.destroy();
                             }
                         }
                     }
+//                    while (bulletList.size() > 0) {
+////                        for (Bullet b : bulletList) {
+//
+//
+//                        bullet = bulletList.get(0);
+//                        if (bullet != null) {
+//                            int step = 1;
+//
+//                            while ((bullet.getX() > -14 && bullet.getX() < 590)
+//                                    && (bullet.getY() > -14 && bullet.getY() < 590)) {
+//                                if (bullet.getDirection() == Direction.UP) {
+//                                    bullet.updateY(-step);
+//                                } else if (bullet.getDirection() == Direction.DOWN) {
+//                                    bullet.updateY(step);
+//                                } else if (bullet.getDirection() == Direction.LEFT) {
+//                                    bullet.updateX(-step);
+//                                } else {
+//                                    bullet.updateX(step);
+//                                }
+//                                if (processInterception()) {
+//                                    bullet.destroy();
+//                                }
+////                                System.out.println("FIRE EDT: " + SwingUtilities.isEventDispatchThread());
+//                                repaint();
+//                                try {
+//                                    Thread.sleep(bullet.getSpeed());
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                if (bullet.isDestroyed()) {
+//                                    bulletList.remove(bullet);
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
                 }
             }
-//            }
-        }).start();
+        }
+
+        ).
+
+                start();
     }
 
     public String getQuadrant(int x, int y) {
         return y / 64 + "_" + x / 64;
     }
 
-    private boolean processInterception() {
+    private boolean processInterception(Bullet bullet) {
         String coordinates = getQuadrant(bullet.getX(), bullet.getY());
         int bY = Integer.parseInt(coordinates.split("_")[0]);
         int bX = Integer.parseInt(coordinates.split("_")[1]);
@@ -402,6 +444,30 @@ public class ActionField extends JPanel {
         return false;
     }
 
+    // -------------------------------------------------------
+//    independant screen update
+// -------------------------------------------------------
+    private void independantScreenUpdate() {
+//        this.setVisible(true);
+//        this.setFocusable(true);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    repaint();
+                    try {
+                        Thread.sleep(16);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    // -------------------------------------------------------
+//    repeat the game
+// -------------------------------------------------------
     public void initRepeat() throws Exception {
         openFileForRead();
 
@@ -488,29 +554,14 @@ public class ActionField extends JPanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        System.out.println("REPAINTING AF");
+//        System.out.println("REPAINTING AF");
         bf.draw(g);
         defender.draw(g);
         bullet.draw(g);
+        defBullet.draw(g);
+        agrBullet.draw(g);
         aggressor.draw(g);
         bf.drawWater(g);
     }
-
-    private void independantScreenUpdate() {
-        this.setVisible(true);
-        this.setFocusable(true);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    repaint();
-                    try {
-                        Thread.sleep(16);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
-    }
+    // -------------------------------------------------------
 }
