@@ -1,9 +1,9 @@
-package com.kademika.day12.tanks.bf.tanks;
+package com.kademika.day13.tanks.bf.tanks;
 
-import com.kademika.day12.tanks.Direction;
-import com.kademika.day12.tanks.bf.BattleField;
-import com.kademika.day12.tanks.bf.Brick;
-import com.kademika.day12.tanks.bf.Eagle;
+import com.kademika.day13.tanks.Direction;
+import com.kademika.day13.tanks.bf.BattleField;
+import com.kademika.day13.tanks.bf.Brick;
+import com.kademika.day13.tanks.bf.Eagle;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

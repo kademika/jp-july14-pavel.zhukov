@@ -1,11 +1,11 @@
-package com.kademika.day12.tanks;
+package com.kademika.day13.tanks;
 
-import com.kademika.day12.tanks.bf.AbstractBfObject;
-import com.kademika.day12.tanks.bf.BattleField;
-import com.kademika.day12.tanks.bf.Empty;
-import com.kademika.day12.tanks.bf.Water;
-import com.kademika.day12.tanks.bf.tanks.*;
-import com.kademika.day12.tanks.bf.tanks.Action;
+import com.kademika.day13.tanks.bf.AbstractBfObject;
+import com.kademika.day13.tanks.bf.BattleField;
+import com.kademika.day13.tanks.bf.Empty;
+import com.kademika.day13.tanks.bf.Water;
+import com.kademika.day13.tanks.bf.tanks.*;
+import com.kademika.day13.tanks.bf.tanks.Action;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,11 +30,9 @@ public class ActionField extends JPanel {
     private Bullet bullet;
     private Bullet agrBullet;
     private Bullet defBullet;
-    private Bullet nullBullet;
     private GameFrame frame;
     private ActionField actionField;
     public boolean inFocus;
-    public Bullet[] bulletArray = new Bullet[4];
 
     public ActionField(GameFrame frame) throws Exception {
         file = new File(fileName);
@@ -59,10 +57,7 @@ public class ActionField extends JPanel {
         agrBullet = new Bullet(-100, -100, Direction.NONE);
         defBullet = new Bullet(-100, -100, Direction.NONE);
         bulletList = new ArrayList<>();
-        nullBullet = new Bullet(-100, -100, Direction.NONE);
-        for (int i = 0; i < 4; i++) {
-            bulletArray[i] = nullBullet;
-        }
+//        bulletList.add(bullet);
     }
 
     public void runTheGame() throws Exception {
@@ -219,7 +214,7 @@ public class ActionField extends JPanel {
         }
         stringBuilder.append(a.toString().substring(0, 1));
         stringBuilder.append(t.getDirection().toString().substring(0, 1));
-        if (a == Action.MOVE) {
+        if (a == com.kademika.day13.tanks.bf.tanks.Action.MOVE) {
             processMove(t);
         } else if (a == Action.FIRE) {
 //            if (t instanceof T34) {
@@ -301,94 +296,52 @@ public class ActionField extends JPanel {
 
     public void processFire(Bullet bullet) throws Exception {
         bulletList.add(bullet);
-        for (int i = 0; i < 4; i++) {
-            if (bulletArray[i] == null || bulletArray[i] == nullBullet) {
-                bulletArray[i] = bullet;
-                break;
-            }
-        }
     }
 
     private void actionOfBullet() {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                while (true){
+                        if(bulletList.size() > 0) {
+//                        for (Bullet bullet : bulletList) {
 
-                while (true) {
-//                        System.out.println(bulletList.size());
-//                        bullet = bulletList.get(0);
-                    for (int i = 0; i < 4; i++) {
-                        bullet = bulletArray[i];
 
-                        if (bullet != null || bullet == nullBullet) {
-                            int step = 1;
+                            bullet = bulletList.get(0);
+                            if (bullet != null) {
+                                int step = 1;
 
-                            while ((bullet.getX() > -14 && bullet.getX() < 590)
-                                    && (bullet.getY() > -14 && bullet.getY() < 590)) {
-                                if (bullet.getDirection() == Direction.UP) {
-                                    bullet.updateY(-step);
-                                } else if (bullet.getDirection() == Direction.DOWN) {
-                                    bullet.updateY(step);
-                                } else if (bullet.getDirection() == Direction.LEFT) {
-                                    bullet.updateX(-step);
-                                } else {
-                                    bullet.updateX(step);
-                                }
-                                if (processInterception(bullet)) {
-                                    bullet.destroy();
-                                }
-                                repaint();
-                                try {
-                                    Thread.sleep(bullet.getSpeed());
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                if (bullet.isDestroyed()) {
-//                                    bulletList.remove(bullet);
-                                    bullet = nullBullet;
-                                    bulletArray[i] = nullBullet;
-                                    break;
+                                while ((bullet.getX() > -14 && bullet.getX() < 590)
+                                        && (bullet.getY() > -14 && bullet.getY() < 590)) {
+                                    if (bullet.getDirection() == Direction.UP) {
+                                        bullet.updateY(-step);
+                                    } else if (bullet.getDirection() == Direction.DOWN) {
+                                        bullet.updateY(step);
+                                    } else if (bullet.getDirection() == Direction.LEFT) {
+                                        bullet.updateX(-step);
+                                    } else {
+                                        bullet.updateX(step);
+                                    }
+                                    if (processInterception(bullet)) {
+                                        bullet.destroy();
+                                    }
+                                    repaint();
+                                    try {
+                                        Thread.sleep(bullet.getSpeed());
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (bullet.isDestroyed()) {
+                                        bulletList.remove(bullet);
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
-
-//                    if (bulletList.size() > 0) {
-//                        System.out.println(bulletList.size());
-//                        bullet = bulletList.get(0);
-//                        if (bullet != null) {
-//                            int step = 1;
-//
-//                            while ((bullet.getX() > -14 && bullet.getX() < 590)
-//                                    && (bullet.getY() > -14 && bullet.getY() < 590)) {
-//                                if (bullet.getDirection() == Direction.UP) {
-//                                    bullet.updateY(-step);
-//                                } else if (bullet.getDirection() == Direction.DOWN) {
-//                                    bullet.updateY(step);
-//                                } else if (bullet.getDirection() == Direction.LEFT) {
-//                                    bullet.updateX(-step);
-//                                } else {
-//                                    bullet.updateX(step);
-//                                }
-//                                if (processInterception(bullet)) {
-//                                    bullet.destroy();
-//                                }
-//                                repaint();
-//                                try {
-//                                    Thread.sleep(bullet.getSpeed());
-//                                } catch (InterruptedException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                if (bullet.isDestroyed()) {
-//                                    bulletList.remove(bullet);
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
                 }
             }
         }
+
         ).start();
     }
 

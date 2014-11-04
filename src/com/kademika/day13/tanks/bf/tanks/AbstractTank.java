@@ -1,8 +1,8 @@
-package com.kademika.day12.tanks.bf.tanks;
+package com.kademika.day13.tanks.bf.tanks;
 
-import com.kademika.day12.tanks.ActionField;
-import com.kademika.day12.tanks.Direction;
-import com.kademika.day12.tanks.bf.*;
+import com.kademika.day13.tanks.ActionField;
+import com.kademika.day13.tanks.Direction;
+import com.kademika.day13.tanks.bf.*;
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
