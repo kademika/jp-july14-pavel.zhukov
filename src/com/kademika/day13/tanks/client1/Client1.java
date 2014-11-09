@@ -9,11 +9,18 @@ import java.net.Socket;
  * Created by Admin on 04.11.2014.
  */
 public class Client1 extends JFrame {
-    SetupPanel setupPanel;
+
+    private SetupPanel setupPanel;
+    private int numTank = 0;
+    private String var = "var";
     public boolean def = false;
 
+    public static void main(String[] args) throws Exception {
+        Client1 cl = new Client1();
+    }
+
     public Client1() throws Exception {
-        init();
+
 
 //        loadSetupPanel();
         StringBuilder stringBuilder = new StringBuilder();
@@ -23,7 +30,7 @@ public class Client1 extends JFrame {
                 InputStream in = socket.getInputStream();
 
         ) {
-            out.write("start game\n".getBytes());
+            out.write("start\n".getBytes());
             out.write(13);
             int data;
             int c = 0;
@@ -41,14 +48,22 @@ public class Client1 extends JFrame {
                         }
                     }
                     String command = new String(buf, 0, k);
+                    stringBuilder = new StringBuilder();
                     System.out.println(command);
-                    if (command.equals("ok")) {
-                        ObjectInputStream inFile = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-
-
+                    if (command.equals("1_0") || command.equals("2_1") || command.equals("2_2") || command.equals("2_3")) {
+                        var = var + Integer.parseInt(command.split("_")[0]);
+                        init();
+                        loadSetupPanel(Integer.parseInt(command.split("_")[0]), Integer.parseInt(command.split("_")[1]));
+                        while (true) {
+                            if (numTank > 0) {
+                                out.write((numTank + "").getBytes());
+                                out.write(13);
+                                break;
+                            }
+                        }
                     }
                 } else {
-                    stringBuilder.append(data);
+                    stringBuilder.append(data + " ");
                 }
             }
         } catch (IOException e) {
@@ -60,11 +75,7 @@ public class Client1 extends JFrame {
         this.setTitle("Start the game");
         this.setLocation(300, 300);
         this.setMinimumSize(new Dimension(250, 250));
-
-//        setupPanel = new SetupPanel(this);
-
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        this.getContentPane().add(setupPanel);
         this.setVisible(true);
         this.setFocusable(true);
     }
@@ -75,5 +86,13 @@ public class Client1 extends JFrame {
         this.getContentPane().add(setupPanel);
         this.pack();
         setupPanel.setVisible(true);
+    }
+
+    public int getNumTank() {
+        return numTank;
+    }
+
+    public void setNumTank(int numTank) {
+        this.numTank = numTank;
     }
 }

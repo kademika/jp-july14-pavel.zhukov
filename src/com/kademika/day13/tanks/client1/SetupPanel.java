@@ -14,7 +14,12 @@ public class SetupPanel extends JPanel {
     private int var;
     private int tank;
     private int numPanel = 0;
+    private JPanel pTanks;
     private JPanel pResult;
+    private JPanel pAggressors;
+    private JPanel setupPanel;
+    private ButtonGroup aggressorGroup;
+    private JLabel jWait;
 
     public SetupPanel(Client1 client1, int var, int tank) {
         this.frame = client1;
@@ -24,17 +29,18 @@ public class SetupPanel extends JPanel {
     }
 
     private void setComponents() {
-        this.setLayout(new GridBagLayout());
+        setupPanel = this;
+        setupPanel.setLayout(new GridBagLayout());
 
         JLabel jLabel1 = new JLabel("Choose the type of tank");
-        this.add(jLabel1, new GridBagConstraints(0, 0, 1, 1, 0, 0,
+        setupPanel.add(jLabel1, new GridBagConstraints(0, 0, 1, 1, 0, 0,
                 GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
                 new Insets(5, 15, 10, 5), 0, 0));
 
         String[] tanksType = new String[]{"defender", "aggressor"};
 
         ButtonGroup tanksGroup = new ButtonGroup();
-        JPanel pTanks = new JPanel();
+        pTanks = new JPanel();
         JRadioButton defender = new JRadioButton(tanksType[0]);
         tanksGroup.add(defender);
         pTanks.add(defender);
@@ -44,8 +50,8 @@ public class SetupPanel extends JPanel {
 
         String[] aggrType = new String[]{"BT7", "Tiger"};
 
-        ButtonGroup aggressorGroup = new ButtonGroup();
-        JPanel pAggressors = new JPanel();
+        aggressorGroup = new ButtonGroup();
+        pAggressors = new JPanel();
         JRadioButton bt7 = new JRadioButton(aggrType[0]);
         aggressorGroup.add(bt7);
         pAggressors.add(bt7);
@@ -60,9 +66,41 @@ public class SetupPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 if (var == 1) {
-
+                    jWait = new JLabel("Your choice accepted! Wait start the game");
+                    frame.setNumTank(1);
+                    jWait.setVisible(true);
+                    setupPanel.add(jWait, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
+                    pResult.setVisible(false);
+                    pTanks.setVisible(false);
+                    frame.getContentPane().removeAll();
+                    frame.getContentPane().add(setupPanel);
+                    frame.revalidate();
+                    frame.pack();
                 } else {
-
+                    if (tank != 1) {
+                        jWait = new JLabel("Your choice accepted! Wait start the game");
+                        setupPanel.add(jWait, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
+                        frame.setNumTank(1);
+                        pResult.setVisible(false);
+                        pTanks.setVisible(false);
+                        jWait.setVisible(true);
+                        frame.getContentPane().removeAll();
+                        frame.getContentPane().add(setupPanel);
+                        frame.revalidate();
+                        frame.pack();
+//                        JLabel jLabel2 = new JLabel("Choose type of aggressor");
+//                        pResult.add(jLabel2, new GridBagConstraints(0, 0, 1, 1, 0, 0,
+//                                GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+//                                new Insets(5, 5, 10, 5), 0, 0));
+//                        pResult.add(pAggressors, new GridBagConstraints(0, 1, 1, 1, 0, 0,
+//                                GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+//                                new Insets(5, 5, 10, 5), 0, 0));
+//                        pResult.setVisible(true);
+                    } else {
+                        jWait = new JLabel("You must change your selection!");
+                        jWait.setVisible(true);
+                        setupPanel.add(jWait, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
+                    }
                 }
             }
         });
@@ -71,18 +109,82 @@ public class SetupPanel extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-
+                if (var == 1) {
+                    JLabel jLabel2 = new JLabel("Choose type of aggressor");
+                    pResult.add(jLabel2, new GridBagConstraints(0, 0, 1, 1, 0, 0,
+                            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+                            new Insets(5, 5, 10, 5), 0, 0));
+                    pResult.add(pAggressors, new GridBagConstraints(0, 1, 1, 1, 0, 0,
+                            GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+                            new Insets(5, 5, 10, 5), 0, 0));
+                    pResult.setVisible(true);
+                    jWait.setVisible(false);
+                    frame.getContentPane().removeAll();
+                    frame.getContentPane().add(setupPanel);
+                    frame.revalidate();
+                    frame.pack();
+                } else {
+                    if (tank == 1) {
+                        JLabel jLabel2 = new JLabel("Choose type of aggressor");
+                        pResult.add(jLabel2, new GridBagConstraints(0, 0, 1, 1, 0, 0,
+                                GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+                                new Insets(5, 5, 10, 5), 0, 0));
+                        pResult.add(pAggressors, new GridBagConstraints(0, 1, 1, 1, 0, 0,
+                                GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+                                new Insets(5, 5, 10, 5), 0, 0));
+                        pResult.setVisible(true);
+                        jWait.setVisible(false);
+                        frame.getContentPane().removeAll();
+                        frame.getContentPane().add(setupPanel);
+                        frame.revalidate();
+                        frame.pack();
+                    } else {
+                        jWait = new JLabel("You must change your selection!");
+                        jWait.setVisible(true);
+                        setupPanel.add(jWait, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
+                        frame.getContentPane().removeAll();
+                        frame.getContentPane().add(setupPanel);
+                        frame.revalidate();
+                        frame.pack();
+                    }
+                }
             }
         });
 
-        this.add(pTanks, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
+        bt7.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                jWait = new JLabel("Your choice accepted! Wait start the game");
+                frame.setNumTank(2);
+                jWait.setVisible(true);
+                pTanks.setVisible(false);
+                setupPanel.add(jWait, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
+                frame.getContentPane().removeAll();
+                frame.getContentPane().add(setupPanel);
+                frame.revalidate();
+                frame.pack();
+            }
+        });
 
+        tiger.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                jWait = new JLabel("Your choice accepted! Wait start the game");
+                frame.setNumTank(3);
+                jWait.setVisible(true);
+                pTanks.setVisible(false);
+                setupPanel.add(jWait, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
+                frame.getContentPane().removeAll();
+                frame.getContentPane().add(setupPanel);
+                frame.revalidate();
+                frame.pack();
+            }
+        });
+        setupPanel.add(pTanks, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
+        setupPanel.add(pResult, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
 
-        JLabel jLabel2 = new JLabel("or repeat the previous game");
-        this.add(jLabel2, new GridBagConstraints(0, 2, 1, 1, 0, 0,
-                GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-                new Insets(5, 5, 10, 5), 0, 0));
+//        jWait = new JLabel("");
 
-
+//        jWait.setVisible(false);
     }
 }
