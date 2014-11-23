@@ -18,8 +18,10 @@ public class SetupPanel extends JPanel {
     private JPanel pResult;
     private JPanel pAggressors;
     private JPanel setupPanel;
+    private JPanel pButtonPanel;
     private ButtonGroup aggressorGroup;
     private JLabel jWait;
+    private boolean startFlag = false;
 
     public SetupPanel(Client1 client1, int var, int tank) {
         this.frame = client1;
@@ -183,6 +185,17 @@ public class SetupPanel extends JPanel {
         setupPanel.add(pTanks, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
         setupPanel.add(pResult, new GridBagConstraints(0, 2, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
 
+        pButtonPanel = new JPanel();
+        setupPanel.add(pButtonPanel, new GridBagConstraints(0, 3, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
+
+        JButton startButton = new JButton("Start");
+        pButtonPanel.add(startButton, new GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 10, 0), 0, 0));
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 //        jWait = new JLabel("");
 
 //        jWait.setVisible(false);

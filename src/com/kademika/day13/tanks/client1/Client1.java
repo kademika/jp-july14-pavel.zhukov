@@ -61,6 +61,8 @@ public class Client1 extends JFrame {
                                 break;
                             }
                         }
+                    }else if (command.equals("start the game")){
+
                     }
                 } else {
                     stringBuilder.append(data + " ");
