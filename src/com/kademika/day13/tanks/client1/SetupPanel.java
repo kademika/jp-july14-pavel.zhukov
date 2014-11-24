@@ -193,7 +193,17 @@ public class SetupPanel extends JPanel {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                SwingWorker worker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+//                        frame.actionField.runTheGame();
+//                        frame.actionField.setVisible(true);
+//                        frame.actionField.setFocusable(true);
+//                        frame.actionField.getKeyAdapter();
+                        return null;
+                    }
+                };
+                worker.execute();
             }
         });
 //        jWait = new JLabel("");
