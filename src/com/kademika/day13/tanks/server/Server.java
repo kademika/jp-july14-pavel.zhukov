@@ -85,18 +85,15 @@ public class Server {
                             if (command.equals("1")) {
                                 System.out.println("Second tank - defender - T34");
                                 secondTank = 1;
-                                out.write("var1_start".getBytes());
-                                out.write("var2_start".getBytes());
+                                out.write("start the game".getBytes());
                             } else if (command.equals("2")) {
                                 System.out.println("Second tank - aggressor - BT7.");
                                 secondTank = 2;
-                                out.write("var1_start".getBytes());
-                                out.write("var2_start".getBytes());
+                                out.write("start the game".getBytes());
                             } else if (command.equals("3")) {
                                 System.out.println("Second tank - aggressor - Tiger.");
                                 secondTank = 3;
-                                out.write("var1_start".getBytes());
-                                out.write("var2_start".getBytes());
+                                out.write("start the game".getBytes());
                             }
                         }
                     } else {

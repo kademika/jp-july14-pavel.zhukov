@@ -1,14 +1,16 @@
-package com.kademika.day13.tanks.client1;
+package com.kademika.day13.tanks.client2;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 /**
  * Created by Admin on 04.11.2014.
  */
-public class Client1 extends JFrame {
+public class Client2 extends JFrame {
 
     private SetupPanel setupPanel;
     private int numTank = 0;
@@ -16,10 +18,10 @@ public class Client1 extends JFrame {
     public boolean def = false;
 
     public static void main(String[] args) throws Exception {
-        Client1 cl = new Client1();
+        Client2 cl = new Client2();
     }
 
-    public Client1() throws Exception {
+    public Client2() throws Exception {
 
 
 //        loadSetupPanel();

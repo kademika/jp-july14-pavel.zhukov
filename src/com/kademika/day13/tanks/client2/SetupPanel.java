@@ -1,4 +1,4 @@
-package com.kademika.day13.tanks.client1;
+package com.kademika.day13.tanks.client2;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
  */
 public class SetupPanel extends JPanel {
 
-    private Client1 frame;
+    private Client2 frame;
     private int var;
     private int tank;
     private int numPanel = 0;
@@ -23,7 +23,7 @@ public class SetupPanel extends JPanel {
     private JLabel jWait;
     public boolean startFlag = false;
 
-    public SetupPanel(Client1 client1, int var, int tank) {
+    public SetupPanel(Client2 client1, int var, int tank) {
         this.frame = client1;
         this.var = var;
         this.tank = tank;
