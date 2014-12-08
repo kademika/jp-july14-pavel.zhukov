@@ -67,14 +67,11 @@ public class Server {
                                 out.write(13);
                             }
                             if (command.equals("1")) {
-                                System.out.println("First tank - defender - T34. Wait second tank...");
+                                System.out.println("First tank - defender. Wait second tank...");
                                 firstTank = 1;
                             } else if (command.equals("2")) {
-                                System.out.println("First tank - aggressor - BT7. Wait second tank...");
+                                System.out.println("First tank - aggressor. Wait second tank...");
                                 firstTank = 2;
-                            } else if (command.equals("3")) {
-                                System.out.println("First tank - aggressor - Tiger. Wait second tank...");
-                                firstTank = 3;
                             }
 
                         } else {
@@ -83,16 +80,12 @@ public class Server {
                                 out.write(13);
                             }
                             if (command.equals("1")) {
-                                System.out.println("Second tank - defender - T34");
+                                System.out.println("Second tank - defender");
                                 secondTank = 1;
                                 out.write("start the game".getBytes());
                             } else if (command.equals("2")) {
-                                System.out.println("Second tank - aggressor - BT7.");
+                                System.out.println("Second tank - aggressor");
                                 secondTank = 2;
-                                out.write("start the game".getBytes());
-                            } else if (command.equals("3")) {
-                                System.out.println("Second tank - aggressor - Tiger.");
-                                secondTank = 3;
                                 out.write("start the game".getBytes());
                             }
                         }
