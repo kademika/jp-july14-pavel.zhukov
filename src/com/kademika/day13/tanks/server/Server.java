@@ -36,7 +36,7 @@ public class Server {
     public static void process(Socket socket) {
         if (numConnect < 3) {
             StringBuilder stringBuilder = new StringBuilder();
-            ;
+
             System.out.println("Connection from " + socket + " " + numConnect);
 
             try (
