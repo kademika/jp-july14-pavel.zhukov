@@ -16,10 +16,8 @@ public class SetupPanel extends JPanel {
     private int numPanel = 0;
     private JPanel pTanks;
     private JPanel pResult;
-    private JPanel pAggressors;
     private JPanel setupPanel;
     private JPanel pButtonPanel;
-    private ButtonGroup aggressorGroup;
     private JLabel jWait;
     public boolean startFlag = false;
 

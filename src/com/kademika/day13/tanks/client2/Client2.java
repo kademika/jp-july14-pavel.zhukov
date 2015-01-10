@@ -22,9 +22,6 @@ public class Client2 extends JFrame {
     }
 
     public Client2() throws Exception {
-
-
-//        loadSetupPanel();
         StringBuilder stringBuilder = new StringBuilder();
         try (
                 Socket socket = new Socket("localhost", 8080);
