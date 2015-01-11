@@ -4,8 +4,9 @@ package com.kademika.day14.shop;
 import com.kademika.day14.shop.watches.Watch;
 
 import java.io.Serializable;
+import java.sql.Date;
 
-public class Transaction implements Serializable{
+public class Transaction implements Serializable {
     private int numTransaction;
     private Client client;
     private Watch watch;
@@ -15,10 +16,12 @@ public class Transaction implements Serializable{
     private double price;
     private double totalPrice;
     private String idProd;
+    private Date date;
+    private int discount = 0;
 
-    public Transaction(Client client, Watch watch,
-                       int number, Personal seller) {
-        this.numTransaction = getNumTransaction();
+    public Transaction(int id, Client client, Watch watch,
+                       int number, Personal seller, Date date) {
+        this.numTransaction = id;
         this.client = client;
         this.idProd = watch.getId();
         this.name = watch.getName();
@@ -26,6 +29,7 @@ public class Transaction implements Serializable{
         this.number = number;
         this.totalPrice = discount(watch, number);
         this.seller = seller;
+        this.date = date;
     }
 
     public double discount(Watch watch, int num) {
@@ -34,8 +38,10 @@ public class Transaction implements Serializable{
         if (total >= 1000) {
             total = total * 0.9;
 //            System.out.println("Discount 10%");
+            this.discount = 10;
         } else if (total >= 500 && total < 1000) {
             total = total * 0.95;
+            this.discount = 5;
 //            System.out.println("Discount 5%");
         }
 //        System.out.println(total);
@@ -92,5 +98,13 @@ public class Transaction implements Serializable{
 
     public String getIdProd() {
         return idProd;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public int getDiscount() {
+        return discount;
     }
 }

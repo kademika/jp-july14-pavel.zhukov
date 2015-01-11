@@ -1,9 +1,12 @@
 package com.kademika.day14.shop;
 
+import com.kademika.day14.shop.db.*;
 import com.kademika.day14.shop.watches.Mechanic;
 import com.kademika.day14.shop.watches.Quartz;
 import com.kademika.day14.shop.watches.Watch;
+import com.kademika.day14.shop.watches.WatchType;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Shop {
@@ -13,58 +16,75 @@ public class Shop {
     private ArrayList<Quartz> quartzs;
     private Report report;
     private ArrayList<Watch> watches;
-    private ArrayList<Watch> deleteWatches;
+    //    private ArrayList<Watch> deleteWatches;
     private ArrayList<Watch> boughtWatches;
-    private ArrayList<Watch>[] boughtWatchesPerWeek;
+    //    private ArrayList<Watch>[] boughtWatchesPerWeek;
     private ArrayList<Integer> numberBoughtWatches;
-    private ArrayList<Integer>[] numBoughtWatchesPerWeek;
+    //    private ArrayList<Integer>[] numBoughtWatchesPerWeek;
     private ArrayList<Transaction> transactions;
-    private ArrayList<Transaction>[] transactionsPerWeek;
+    //    private ArrayList<Transaction>[] transactionsPerWeek;
     private int day;
     private boolean isBought = false;
     private int idTransaction;
+    private DBConnection dbConnection;
+    private DBSelect dbSelect;
+    private DBInsert dbInsert;
+    private DBDelete dbDelete;
+    private DBUpdate dbUpdate;
+    private Date date;
 
-    public Shop(ArrayList<Client> clients, ArrayList<Personal> personal,
-                ArrayList<Watch> arrayWatches) {
+    public Shop(DBConnection dbConnection) {
+        this.dbConnection = dbConnection;
+
+        dbSelect = new DBSelect(dbConnection);
+        dbInsert = new DBInsert(dbConnection);
+        dbDelete = new DBDelete(dbConnection);
+        dbUpdate = new DBUpdate(dbConnection);
+
+//        ArrayList<Client> clients = dbSelect.selectClients();
+//        ArrayList<Personal> personal = dbSelect.selectPersonal();
+//        ArrayList<Watch> watches = dbSelect.selectWatches();
+
         mechanics = new ArrayList<>();
         quartzs = new ArrayList<>();
-        deleteWatches = new ArrayList<>();
+//        deleteWatches = new ArrayList<>();
         boughtWatches = new ArrayList<>();
-        boughtWatchesPerWeek = new ArrayList[]{
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>()
-        };
+//        boughtWatchesPerWeek = new ArrayList[]{
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>()
+//        };
         numberBoughtWatches = new ArrayList<>();
-        numBoughtWatchesPerWeek = new ArrayList[]{
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>()
-        };
+//        numBoughtWatchesPerWeek = new ArrayList[]{
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>()
+//        };
         transactions = new ArrayList<>();
-        transactionsPerWeek = new ArrayList[]{
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>(),
-                new ArrayList<>()
-        };
-        report = new Report();
+//        transactionsPerWeek = new ArrayList[]{
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>(),
+//                new ArrayList<>()
+//        };
+        report = new Report(dbConnection);
 
-        watches = arrayWatches;
-        this.clients = clients;
-        this.personal = personal;
-        createWatches(arrayWatches);
+        watches = dbSelect.selectWatches();
+        this.clients = dbSelect.selectClients();
+        this.personal = dbSelect.selectPersonal();
+        dbSelect.selectTransactions();
+        createWatches(watches);
     }
 
     // ****************************************************************************
@@ -93,14 +113,18 @@ public class Shop {
     }
 
     private void deleteWatchFromCategory(ArrayList<? extends Watch> arrayWatches, Watch watch) {
-        setDeleteWatch(watch);
+//        setDeleteWatch(watch);
         arrayWatches.remove(watch);
     }
 
-    private void setDeleteWatch(Watch watch) {
-        deleteWatches.add(watch);
-        return;
+    public void deleteWatchFromDB(Watch watch) {
+        dbDelete.deleteWatch(watch.getId());
     }
+
+//    private void setDeleteWatch(Watch watch) {
+//        deleteWatches.add(watch);
+//        return;
+//    }
 
     // ****************************************************************************
     public void setTransaction(Client client, Watch watch, int number,
@@ -109,9 +133,10 @@ public class Shop {
         if (isAvailable(arrayWatches, watch)) {
             buyWatch(watch, number);
             if (isBought) {
-                Transaction tr = new Transaction(client, watch, number, getPersonal().get(0));
-                idTransaction++;
-                tr.setNumTransaction(idTransaction);
+                Transaction tr = new Transaction(dbConnection.getNumTransaction(), client, watch, number, getPersonal().get(0), date);
+                dbInsert.insertTransaction(tr);
+//                idTransaction++;
+//                tr.setNumTransaction(dbConnection.getNumTransaction());
                 addTransaction(tr, day);
             }
         } else {
@@ -121,7 +146,7 @@ public class Shop {
 
     private void addTransaction(Transaction transaction, int day) {
         transactions.add(transaction);
-        transactionsPerWeek[day - 1].add(transaction);
+//        transactionsPerWeek[day - 1].add(transaction);
 
     }
 
@@ -151,6 +176,7 @@ public class Shop {
             setBuyWatch(watch, number, day);
             watch.setNumber(watch.getNumber() - number);
             isBought = true;
+            dbUpdate.updateWatch(watch, "", 0, WatchType.None, watch.getNumber() - number, 0, true, 0, "");
             if (watch.getNumber() == 0) {
                 deleteWatch(watch);
             }
@@ -163,9 +189,9 @@ public class Shop {
 
     private void setBuyWatch(Watch watch, int number, int day) {
         boughtWatches.add(watch);
-        boughtWatchesPerWeek[day - 1].add(watch);
+//        boughtWatchesPerWeek[day - 1].add(watch);
         numberBoughtWatches.add(number);
-        numBoughtWatchesPerWeek[day - 1].add(number);
+//        numBoughtWatchesPerWeek[day - 1].add(number);
     }
 
     // ****************************************************************************
@@ -194,13 +220,13 @@ public class Shop {
         return watches;
     }
 
-    public ArrayList<Watch> getDeleteWatches() {
-        return deleteWatches;
-    }
-
-    public ArrayList[] getBoughtWatchesPerDay() {
-        return boughtWatchesPerWeek;
-    }
+//    public ArrayList<Watch> getDeleteWatches() {
+//        return deleteWatches;
+//    }
+//
+//    public ArrayList[] getBoughtWatchesPerDay() {
+//        return boughtWatchesPerWeek;
+//    }
 
     public ArrayList<Watch> getBoughtWatches() {
         return boughtWatches;
@@ -210,17 +236,17 @@ public class Shop {
         return numberBoughtWatches;
     }
 
-    public ArrayList[] getNumBoughtWatchesPerDay() {
-        return numBoughtWatchesPerWeek;
-    }
+//    public ArrayList[] getNumBoughtWatchesPerDay() {
+//        return numBoughtWatchesPerWeek;
+//    }
 
     public ArrayList<Transaction> getTransactions() {
         return transactions;
     }
 
-    public ArrayList[] getTransactionsPerDay() {
-        return transactionsPerWeek;
-    }
+//    public ArrayList[] getTransactionsPerDay() {
+//        return transactionsPerWeek;
+//    }
 
     public ArrayList<Client> getClients() {
         return clients;
@@ -260,4 +286,45 @@ public class Shop {
         return idTransaction;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public DBConnection getDbConnection() {
+        return dbConnection;
+    }
+
+    public String[] getFioPerArray() {
+        String[] persArray = new String[personal.size()];
+        int k = 0;
+        for (Personal p : personal) {
+            persArray[k] = p.getFio();
+            k++;
+        }
+        return persArray;
+    }
+
+    public String[] getFioClientArray() {
+        String[] clientArray = new String[clients.size()];
+        int k = 0;
+        for (Client c : clients) {
+            clientArray[k] = c.getFio();
+            k++;
+        }
+        return clientArray;
+    }
+
+    public String[] getNameWatchArray() {
+        String[] watchArray = new String[watches.size()];
+        int k = 0;
+        for (Watch w : watches) {
+            watchArray[k] = w.getName();
+            k++;
+        }
+        return watchArray;
+    }
 }

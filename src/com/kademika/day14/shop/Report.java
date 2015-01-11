@@ -1,14 +1,17 @@
 package com.kademika.day14.shop;
 
+import com.kademika.day14.shop.db.*;
 import com.kademika.day14.shop.watches.Watch;
 
 import java.util.ArrayList;
 
 public class Report {
-    private int[] productsOnWeek;
+    //    private int[] productsOnWeek;
+    private DBSelect dbSelect;
 
-    public Report() {
-        productsOnWeek = new int[7];
+    public Report(DBConnection dbConnection) {
+//        productsOnWeek = new int[7];
+        dbSelect = new DBSelect(dbConnection);
     }
 
     private boolean isNullCopy(Watch watch) {
@@ -62,21 +65,22 @@ public class Report {
         System.out.println("-----------------------------------------");
         return info;
     }
+//
+//    public ArrayList<String> printDeleteProducts(ArrayList<Watch> deleteWatches) {
+//        ArrayList<String> info = new ArrayList<>();
+//        for (Watch w : deleteWatches) {
+//            if (!isNullCopy(w)) {
+//                info.add("ID: " + w.getId() + "	Watch: "
+//                        + w.getName() + "	type: "
+//                        + w.getType() + "	price: "
+//                        + w.getPrice() + " $");
+//            }
+//        }
+//        return info;
+//    }
 
-    public ArrayList<String> printDeleteProducts(ArrayList<Watch> deleteWatches) {
-        ArrayList<String> info = new ArrayList<>();
-        for (Watch w : deleteWatches) {
-            if (!isNullCopy(w)) {
-                info.add("ID: " + w.getId() + "	Watch: "
-                        + w.getName() + "	type: "
-                        + w.getType() + "	price: "
-                        + w.getPrice() + " $");
-            }
-        }
-        return info;
-    }
-
-    public ArrayList<String> getTransactions(ArrayList<Transaction> transactions) {
+    public ArrayList<String> getTransactions() {
+        ArrayList<Transaction> transactions = dbSelect.selectTransactions();
         double oneDayTotalPrice = 0;
         int oneDayProducts = 0;
         if (!transactions.isEmpty()) {
@@ -86,6 +90,7 @@ public class Report {
                     oneDayProducts += tr.getNumber();
                     oneDayTotalPrice += tr.getTotalPrice();
                     info.add("ID: " + tr.getNumTransaction()
+                            + " date: " + tr.getDate()
                             + "	Client: "
                             + tr.getClient().getFio()
                             + "	ID watch: " + tr.getIdProd()
@@ -99,10 +104,10 @@ public class Report {
                     info.add("Null transaction");
                 }
             }
-            System.out.println("Total:	In this day sold " + oneDayProducts
-                    + " pcs. of watches for the total amount "
-                    + oneDayTotalPrice + " $");
-            System.out.println("-----------------------------------------");
+//            System.out.println("Total:	In this day sold " + oneDayProducts
+//                    + " pcs. of watches for the total amount "
+//                    + oneDayTotalPrice + " $");
+//            System.out.println("-----------------------------------------");
             return info;
         } else {
             ArrayList<String> info = new ArrayList<>();
@@ -111,78 +116,78 @@ public class Report {
         }
     }
 
-    public ArrayList<String>[] getWeekTransactions(ArrayList<Transaction>[] transactionsPerWeek) {
-        int weekProducts = 0;
-        double weekTotalPrice = 0;
-        ArrayList<String>[] infoArray = new ArrayList[7];
-        for (int i = 0; i < 7; i++) {
-            ArrayList<String> info = new ArrayList<>();
-            if (!transactionsPerWeek[i].isEmpty()) {
-                for (Transaction tr : transactionsPerWeek[i]) {
-                    if (tr != null) {
-                        weekProducts += tr.getNumber();
-                        weekTotalPrice += tr.getTotalPrice();
-                        info.add("ID: "
-                                + tr.getNumTransaction()
-                                + "	Client: "
-                                + tr.getClient().getFio()
-                                + "	ID watch: "
-                                + tr.getIdProd()
-                                + "	Watch: "
-                                + tr.getName()
-                                + " price: "
-                                + tr.getPrice()
-                                + "	number: "
-                                + tr.getNumber()
-                                + "	total: "
-                                + tr.getTotalPrice()
-                                + " seller: "
-                                + tr.getSeller().getFio());
-                    } else {
-                        info.add("Null transaction");
-                    }
-                }
-            }
-            infoArray[i] = info;
-        }
-        System.out.println("Total:	In this week sold " + weekProducts
-                + " pcs. of watches for the total amount " + weekTotalPrice
-                + " $");
-        System.out.println("-----------------------------------------");
-        return infoArray;
-    }
+//    public ArrayList<String>[] getWeekTransactions(ArrayList<Transaction>[] transactionsPerWeek) {
+//        int weekProducts = 0;
+//        double weekTotalPrice = 0;
+//        ArrayList<String>[] infoArray = new ArrayList[7];
+//        for (int i = 0; i < 7; i++) {
+//            ArrayList<String> info = new ArrayList<>();
+//            if (!transactionsPerWeek[i].isEmpty()) {
+//                for (Transaction tr : transactionsPerWeek[i]) {
+//                    if (tr != null) {
+//                        weekProducts += tr.getNumber();
+//                        weekTotalPrice += tr.getTotalPrice();
+//                        info.add("ID: "
+//                                + tr.getNumTransaction()
+//                                + "	Client: "
+//                                + tr.getClient().getFio()
+//                                + "	ID watch: "
+//                                + tr.getIdProd()
+//                                + "	Watch: "
+//                                + tr.getName()
+//                                + " price: "
+//                                + tr.getPrice()
+//                                + "	number: "
+//                                + tr.getNumber()
+//                                + "	total: "
+//                                + tr.getTotalPrice()
+//                                + " seller: "
+//                                + tr.getSeller().getFio());
+//                    } else {
+//                        info.add("Null transaction");
+//                    }
+//                }
+//            }
+//            infoArray[i] = info;
+//        }
+//        System.out.println("Total:	In this week sold " + weekProducts
+//                + " pcs. of watches for the total amount " + weekTotalPrice
+//                + " $");
+//        System.out.println("-----------------------------------------");
+//        return infoArray;
+//    }
 
-    public String getNumWeekSoldProducts(ArrayList<Transaction>[] transactionsPerWeek) {
-        String tmp = "";
-        for (int i = 0; i < transactionsPerWeek.length; i++) {
-            if (transactionsPerWeek[i] != null) {
-                for (Transaction tr : transactionsPerWeek[i]) {
-                    if (tr != null) {
-                        productsOnWeek[i] += tr.getNumber();
-                    }
-                }
-                tmp += " " + productsOnWeek[i];
-            }
-        }
-        return "Number of watches sold per week " + tmp;
-    }
+//    public String getNumWeekSoldProducts(ArrayList<Transaction>[] transactionsPerWeek) {
+//        String tmp = "";
+//        for (int i = 0; i < transactionsPerWeek.length; i++) {
+//            if (transactionsPerWeek[i] != null) {
+//                for (Transaction tr : transactionsPerWeek[i]) {
+//                    if (tr != null) {
+//                        productsOnWeek[i] += tr.getNumber();
+//                    }
+//                }
+//                tmp += " " + productsOnWeek[i];
+//            }
+//        }
+//        return "Number of watches sold per week " + tmp;
+//    }
 
-    public String getNumWeekTransactions(ArrayList<Transaction>[] transactionsPerWeek) {
-        String tmp = "";
-        int count = 0;
-        for (int i = 0; i < transactionsPerWeek.length; i++) {
-            if (transactionsPerWeek[i] != null) {
-                for (Transaction tr : transactionsPerWeek[i]) {
-                    if (tr != null) {
-                        count++;
-                    }
-                }
-                tmp += " " + count;
-            }
-            count = 0;
-        }
-        return "Number of purchases per week " + tmp;
-    }
+//    public String getNumWeekTransactions(ArrayList<Transaction>[] transactionsPerWeek) {
+//        String tmp = "";
+//        int count = 0;
+//        for (int i = 0; i < transactionsPerWeek.length; i++) {
+//            if (transactionsPerWeek[i] != null) {
+//                for (Transaction tr : transactionsPerWeek[i]) {
+//                    if (tr != null) {
+//                        count++;
+//                    }
+//                }
+//                tmp += " " + count;
+//            }
+//            count = 0;
+//        }
+//        return "Number of purchases per week " + tmp;
+//    }
 
     public ArrayList<String> getCategoryProducts(ArrayList<Watch> watches) {
         ArrayList<String> info = new ArrayList<>();
@@ -192,9 +197,9 @@ public class Report {
         return info;
     }
 
-    public String getLastTransaction(ArrayList<Transaction>[] transactionsPerWeek,
+    public String getLastTransaction(ArrayList<Transaction> transactions,
                                      Shop shop) {
-        Transaction[] tmp = (Transaction[]) transactionsPerWeek[shop.getDay() - 1].toArray();
+        Transaction[] tmp = (Transaction[]) transactions.toArray();
         int k = -1;
         String res;
         for (int i = tmp.length - 1; i >= 0; i--) {
@@ -202,7 +207,7 @@ public class Report {
                 k = i;
             }
         }
-        res = "ID: " + tmp[k - 1].getNumTransaction() + "	Client: "
+        res = "ID: " + tmp[k - 1].getNumTransaction() + "  Date: " + tmp[k - 1].getDate() + "	Client: "
                 + tmp[k - 1].getClient().getFio() + "	ID watch: "
                 + tmp[k - 1].getIdProd() + "	Watch: " + tmp[k - 1].getName()
                 + "     Price: " + tmp[k - 1].getPrice() + "	Number: "

@@ -1,11 +1,9 @@
 package com.kademika.day14.shop;
 
-import com.kademika.day13.shop.Client;
-import com.kademika.day13.shop.Personal;
-import com.kademika.day13.shop.watches.Mechanic;
-import com.kademika.day13.shop.watches.Quartz;
-import com.kademika.day13.shop.watches.Watch;
-import com.kademika.day13.shop.watches.WatchType;
+import com.kademika.day14.shop.watches.Mechanic;
+import com.kademika.day14.shop.watches.Quartz;
+import com.kademika.day14.shop.watches.Watch;
+import com.kademika.day14.shop.watches.WatchType;
 
 import java.util.ArrayList;
 
@@ -39,14 +37,14 @@ public class TestData {
         return watches;
     }
 
-    public ArrayList<com.kademika.day13.shop.Client> arrayClients() {
-        ArrayList<com.kademika.day13.shop.Client> clients = new ArrayList<>();
+    public ArrayList<Client> arrayClients() {
+        ArrayList<Client> clients = new ArrayList<>();
 
-        clients.add(new com.kademika.day13.shop.Client("Ivanov Ivan", "ivan@yandex.ru", "530215"));
-        clients.add(new com.kademika.day13.shop.Client("Petrov Petr", "petr@yandex.ru", "567425"));
-        clients.add(new com.kademika.day13.shop.Client("Sidorov Semen", "semen@yandex.ru",
+        clients.add(new Client("Ivanov Ivan", "ivan@yandex.ru", "530215"));
+        clients.add(new Client("Petrov Petr", "petr@yandex.ru", "567425"));
+        clients.add(new Client("Sidorov Semen", "semen@yandex.ru",
                 "89198526344"));
-        clients.add(new com.kademika.day13.shop.Client("Litvin Andrey", "andrey@mail.ru",
+        clients.add(new Client("Litvin Andrey", "andrey@mail.ru",
                 "89422312545"));
         clients.add(new Client("Smirnov Boris", "boris@gmail.com", "357446"));
 

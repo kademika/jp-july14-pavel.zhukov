@@ -1,0 +1,134 @@
+package com.kademika.day14.shop.db;
+
+import com.kademika.day14.shop.Client;
+import com.kademika.day14.shop.Personal;
+import com.kademika.day14.shop.Transaction;
+import com.kademika.day14.shop.watches.Mechanic;
+import com.kademika.day14.shop.watches.Quartz;
+import com.kademika.day14.shop.watches.Watch;
+import com.kademika.day14.shop.watches.WatchType;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+/**
+ * Created by Admin on 11.01.2015.
+ */
+public class DBInsert {
+    private Connection connection = null;
+    private DBConnection dbConnection = null;
+    private DBSelect dbSelect = null;
+
+    public DBInsert(DBConnection dbConnection) {
+        this.connection = dbConnection.getConnection();
+        this.dbConnection = dbConnection;
+        dbSelect = new DBSelect(dbConnection);
+    }
+
+    public void insertClient(Client client) {
+        try {
+            PreparedStatement pst = connection.prepareStatement("INSERT INTO client (id, fio, email, tel) VALUES (?, ?, ?, ?)");
+            pst.setInt(1, dbConnection.getNumClient() + 1);
+            pst.setString(2, client.getFio());
+            pst.setString(3, client.getEmail());
+            pst.setString(4, client.getTel());
+            if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to add data to the database.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertPersonal(Personal personal) {
+        try {
+            PreparedStatement pst = connection.prepareStatement("INSERT INTO personal (id, fio, age, email) VALUES (?, ?, ?, ?)");
+            pst.setInt(1, dbConnection.getNumPersonal() + 1);
+            pst.setString(2, personal.getFio());
+            pst.setInt(3, personal.getAge());
+            pst.setString(4, personal.getEmail());
+            if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to add data to the database.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertWatch(Watch watch) {
+        if (watch instanceof Quartz) {
+            try {
+                PreparedStatement pst = connection.prepareStatement
+                        ("INSERT INTO watch (id, name, weight, mechanism, type, number, price, backlight, numberArrows, moreFeatures) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                pst.setString(1, "" + (dbConnection.getNumQuartz() + 1));
+                pst.setString(2, watch.getName());
+                pst.setInt(3, watch.getWeight());
+                pst.setInt(4, 1);
+                if (watch.getType() == WatchType.Wrist) {
+                    pst.setInt(5, 1);
+                } else {
+                    pst.setInt(5, 2);
+                }
+                pst.setInt(6, watch.getNumber());
+                pst.setDouble(7, watch.getPrice());
+                if (((Quartz) watch).isBacklight()) {
+                    pst.setInt(8, 1);
+                } else {
+                    pst.setInt(8, 0);
+                }
+                pst.setNull(9, 9);
+                pst.setString(10, ((Quartz) watch).getMoreFeatures());
+
+                if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to add data to the database.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                PreparedStatement pst = connection.prepareStatement
+                        ("INSERT INTO watch (id, name, weight, mechanism, type, number, price, backlight, numberArrows, moreFeatures) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                if (dbConnection.getNumMechanic() >= 99) {
+                    pst.setString(1, "0" + (dbConnection.getNumMechanic() + 1));
+                } else if (dbConnection.getNumMechanic() >= 9) {
+                    pst.setString(1, "00" + (dbConnection.getNumMechanic() + 1));
+                } else {
+                    pst.setString(1, "000" + (dbConnection.getNumMechanic() + 1));
+                }
+                pst.setString(2, watch.getName());
+                pst.setInt(3, watch.getWeight());
+                pst.setInt(4, 2);
+                if (watch.getType() == WatchType.Wrist) {
+                    pst.setInt(5, 1);
+                } else {
+                    pst.setInt(5, 2);
+                }
+                pst.setInt(6, watch.getNumber());
+                pst.setDouble(7, watch.getPrice());
+                pst.setNull(8, 8);
+                pst.setInt(9, ((Mechanic) watch).getNumberArrows());
+                pst.setString(10, ((Mechanic) watch).getAdditionalDials());
+                if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to add data to the database.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void insertTransaction(Transaction transaction) {
+        try {
+            PreparedStatement pst = connection.prepareStatement
+                    ("INSERT INTO transactions (id, date, client, watch, personal, number, price, discount, total) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            pst.setInt(1, dbConnection.getNumTransaction() + 1);
+            pst.setDate(2, transaction.getDate());
+            pst.setInt(3, dbSelect.selectIdClientByParam(transaction.getClient().getFio(), transaction.getClient().getEmail()));
+            pst.setString(4, transaction.getIdProd());
+            pst.setInt(5, dbSelect.selectIdPersByParam(transaction.getSeller().getFio(), transaction.getSeller().getAge()));
+            pst.setInt(6, transaction.getNumber());
+            pst.setDouble(7, transaction.getPrice());
+            pst.setInt(8, transaction.getDiscount());
+            pst.setDouble(9, transaction.getTotalPrice());
+            if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to add data to the database.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
