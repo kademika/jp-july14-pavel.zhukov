@@ -130,10 +130,15 @@ public class Shop {
     public void setTransaction(Client client, Watch watch, int number,
                                Personal seller) {
         ArrayList<? extends Watch> arrayWatches = typeWatches(watch);
+        dbConnection = new DBConnection();
+        dbSelect = new DBSelect(dbConnection);
+        dbInsert = new DBInsert(dbConnection);
+        dbDelete = new DBDelete(dbConnection);
+        dbUpdate = new DBUpdate(dbConnection);
         if (isAvailable(arrayWatches, watch)) {
             buyWatch(watch, number);
             if (isBought) {
-                Transaction tr = new Transaction(dbConnection.getNumTransaction(), client, watch, number, getPersonal().get(0), date);
+                Transaction tr = new Transaction(dbConnection.getNumTransaction() + 1, client, watch, number, getPersonal().get(0), date);
                 dbInsert.insertTransaction(tr);
 //                idTransaction++;
 //                tr.setNumTransaction(dbConnection.getNumTransaction());
@@ -142,6 +147,7 @@ public class Shop {
         } else {
             System.out.println("Transaction failed. Check the entered data");
         }
+        dbConnection.closeConnection();
     }
 
     private void addTransaction(Transaction transaction, int day) {

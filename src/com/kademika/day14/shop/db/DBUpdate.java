@@ -123,8 +123,8 @@ public class DBUpdate {
             }
             pst.setString(8, upMoreFeat);
             pst.setString(9, watch.getId());
-
-            if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to update data in the database.");
+            int res = pst.executeUpdate();
+            if (res <= 0) System.out.println("Error! Unable to update data in the database.");
         } catch (Exception e) {
             e.printStackTrace();
         }

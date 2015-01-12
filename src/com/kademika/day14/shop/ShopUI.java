@@ -116,7 +116,7 @@ public class ShopUI {
             int con = cbPersonal.getSelectedIndex();
             shop.setDate(new Date(System.currentTimeMillis()));
             try {
-                dbConnection = new DBConnection();
+//                dbConnection = new DBConnection();
                 shop.setTransaction((Client) shop.getClients().toArray()[cn],
                         (Watch) shop.getWatches().toArray()[p], num, (Personal) shop.getPersonal().toArray()[con]);
                 res = true;
@@ -130,7 +130,7 @@ public class ShopUI {
 //            if (res) {
 //                lResult.setVisible(true);
 //            }
-            dbConnection.closeConnection();
+//            dbConnection.closeConnection();
         }
     }
 }
