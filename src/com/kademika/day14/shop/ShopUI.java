@@ -50,7 +50,6 @@ public class ShopUI {
                 GridBagConstraints.LINE_START, 0, new Insets(0, 0, 0, 0), 0, 0));
 
         cbClientName = new JComboBox<String>(shop.getFioClientArray());
-        cbClientName.setEditable(true);
         panel.add(cbClientName, new GridBagConstraints(1, 1, 1, 1, 0, 0,
                 GridBagConstraints.LINE_START, 0, new Insets(0, 0, 0, 0), 0, 0));
 
@@ -116,7 +115,6 @@ public class ShopUI {
             int con = cbPersonal.getSelectedIndex();
             shop.setDate(new Date(System.currentTimeMillis()));
             try {
-//                dbConnection = new DBConnection();
                 shop.setTransaction((Client) shop.getClients().toArray()[cn],
                         (Watch) shop.getWatches().toArray()[p], num, (Personal) shop.getPersonal().toArray()[con]);
                 res = true;
@@ -124,13 +122,11 @@ public class ShopUI {
                 System.out.println(err);
             }
 
-//            lStr.append(report.getLastTransaction(shop.getTransactions(),
-//                    shop) + "\n");
-//            lStr.setCaretPosition(lStr.getDocument().getLength());
-//            if (res) {
-//                lResult.setVisible(true);
-//            }
-//            dbConnection.closeConnection();
+            lStr.append(report.getLastTransaction(shop) + "\n");
+            lStr.setCaretPosition(lStr.getDocument().getLength());
+            if (res) {
+                lResult.setVisible(true);
+            }
         }
     }
 }

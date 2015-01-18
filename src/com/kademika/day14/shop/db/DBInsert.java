@@ -27,11 +27,11 @@ public class DBInsert {
 
     public void insertClient(Client client) {
         try {
-            PreparedStatement pst = connection.prepareStatement("INSERT INTO client (id, fio, email, tel) VALUES (?, ?, ?, ?)");
-            pst.setInt(1, dbConnection.getNumClient() + 1);
-            pst.setString(2, client.getFio());
-            pst.setString(3, client.getEmail());
-            pst.setString(4, client.getTel());
+            PreparedStatement pst = connection.prepareStatement("INSERT INTO client (id, fio, email, tel) VALUES (last_insert_id(), ?, ?, ?)");
+//            pst.setInt(1, dbConnection.getNumClient() + 1);
+            pst.setString(1, client.getFio());
+            pst.setString(2, client.getEmail());
+            pst.setString(3, client.getTel());
             if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to add data to the database.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,11 +40,11 @@ public class DBInsert {
 
     public void insertPersonal(Personal personal) {
         try {
-            PreparedStatement pst = connection.prepareStatement("INSERT INTO personal (id, fio, age, email) VALUES (?, ?, ?, ?)");
-            pst.setInt(1, dbConnection.getNumPersonal() + 1);
-            pst.setString(2, personal.getFio());
-            pst.setInt(3, personal.getAge());
-            pst.setString(4, personal.getEmail());
+            PreparedStatement pst = connection.prepareStatement("INSERT INTO personal (id, fio, age, email) VALUES (last_insert_id(), ?, ?, ?)");
+//            pst.setInt(1, dbConnection.getNumPersonal() + 1);
+            pst.setString(1, personal.getFio());
+            pst.setInt(2, personal.getAge());
+            pst.setString(3, personal.getEmail());
             if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to add data to the database.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,16 +116,16 @@ public class DBInsert {
         try {
             PreparedStatement pst = connection.prepareStatement
                     ("INSERT INTO transactions (id, date, client, watch, personal, number, price, discount, total) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            pst.setInt(1, dbConnection.getNumTransaction() + 1);
-            pst.setDate(2, transaction.getDate());
-            pst.setInt(3, dbSelect.selectIdClientByParam(transaction.getClient().getFio(), transaction.getClient().getEmail()));
-            pst.setString(4, transaction.getIdProd());
-            pst.setInt(5, dbSelect.selectIdPersByParam(transaction.getSeller().getFio(), transaction.getSeller().getAge()));
-            pst.setInt(6, transaction.getNumber());
-            pst.setDouble(7, transaction.getPrice());
-            pst.setInt(8, transaction.getDiscount());
-            pst.setDouble(9, transaction.getTotalPrice());
+                            "VALUES (last_insert_id(), ?, ?, ?, ?, ?, ?, ?, ?)");
+//            pst.setInt(1, dbConnection.getNumTransaction() + 1);
+            pst.setDate(1, transaction.getDate());
+            pst.setInt(2, dbSelect.selectIdClientByParam(transaction.getClient().getFio(), transaction.getClient().getEmail()));
+            pst.setString(3, transaction.getIdProd());
+            pst.setInt(4, dbSelect.selectIdPersByParam(transaction.getSeller().getFio(), transaction.getSeller().getAge()));
+            pst.setInt(5, transaction.getNumber());
+            pst.setDouble(6, transaction.getPrice());
+            pst.setInt(7, transaction.getDiscount());
+            pst.setDouble(8, transaction.getTotalPrice());
             if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to add data to the database.");
         } catch (Exception e) {
             e.printStackTrace();

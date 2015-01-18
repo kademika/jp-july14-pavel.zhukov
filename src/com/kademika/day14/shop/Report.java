@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class Report {
     //    private int[] productsOnWeek;
     private DBSelect dbSelect;
+    private DBConnection dbConnection;
 
     public Report(DBConnection dbConnection) {
 //        productsOnWeek = new int[7];
@@ -197,23 +198,26 @@ public class Report {
         return info;
     }
 
-    public String getLastTransaction(ArrayList<Transaction> transactions,
-                                     Shop shop) {
-        Transaction[] tmp = (Transaction[]) transactions.toArray();
-        int k = -1;
+    public String getLastTransaction(Shop shop) {
+        dbConnection = new DBConnection();
+        dbSelect = new DBSelect(dbConnection);
+        ArrayList<Transaction> transactions = dbSelect.selectTransactions();
+        Transaction tmp = transactions.get(transactions.size() - 1);
+//
+//        int k = -1;
         String res;
-        for (int i = tmp.length - 1; i >= 0; i--) {
-            if (tmp[i] == null) {
-                k = i;
-            }
-        }
-        res = "ID: " + tmp[k - 1].getNumTransaction() + "  Date: " + tmp[k - 1].getDate() + "	Client: "
-                + tmp[k - 1].getClient().getFio() + "	ID watch: "
-                + tmp[k - 1].getIdProd() + "	Watch: " + tmp[k - 1].getName()
-                + "     Price: " + tmp[k - 1].getPrice() + "	Number: "
-                + tmp[k - 1].getNumber() + "	Total: "
-                + tmp[k - 1].getTotalPrice() + "    Seller: "
-                + tmp[k - 1].getSeller().getFio();
+//        for (int i = tmp.length - 1; i >= 0; i--) {
+//            if (tmp[i] == null) {
+//                k = i;
+//            }
+//        }
+        res = "ID:" + tmp.getNumTransaction() + " " + tmp.getDate() + " "
+                + tmp.getClient().getFio() + " ID watch:"
+                + tmp.getIdProd() + " " + tmp.getName()
+                + " Price: " + tmp.getPrice() + " Number: "
+                + tmp.getNumber() + " Total: "
+                + tmp.getTotalPrice() + "    "
+                + tmp.getSeller().getFio();
         return res;
     }
 }

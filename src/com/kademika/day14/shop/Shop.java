@@ -182,7 +182,7 @@ public class Shop {
             setBuyWatch(watch, number, day);
             watch.setNumber(watch.getNumber() - number);
             isBought = true;
-            dbUpdate.updateWatch(watch, "", 0, WatchType.None, watch.getNumber() - number, 0, true, 0, "");
+            dbUpdate.updateWatch(watch, "", 0, WatchType.None, watch.getNumber(), 0, true, 0, "");
             if (watch.getNumber() == 0) {
                 deleteWatch(watch);
             }
