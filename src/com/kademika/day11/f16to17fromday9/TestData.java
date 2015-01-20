@@ -190,15 +190,15 @@ public class TestData {
         int i = 0;
         Personal[] personal = new Personal[5];
 
-        personal[i++] = new Personal("Shevchuk Oksana", 25, "oksana@shop_v1.ru",
+        personal[i++] = new Personal("Shevchuk Oksana", 25, "oksana@shop.ru",
                 JobRole.PAYMASTER);
-        personal[i++] = new Personal("Vinnikova Lilia", 32, "lilia@shop_v1.ru",
+        personal[i++] = new Personal("Vinnikova Lilia", 32, "lilia@shop.ru",
                 JobRole.PAYMASTER);
         personal[i++] = new Personal("Ovchinnik Nikolay", 28,
-                "nikolay@shop_v1.ru", JobRole.CONSULTANT);
-        personal[i++] = new Personal("Reznikov Stas", 23, "stats@shop_v1.ru",
+                "nikolay@shop.ru", JobRole.CONSULTANT);
+        personal[i++] = new Personal("Reznikov Stas", 23, "stats@shop.ru",
                 JobRole.CONSULTANT);
-        personal[i++] = new Personal("Pahmutov Evgeniy", 32, "evgeniy@shop_v1.ru",
+        personal[i++] = new Personal("Pahmutov Evgeniy", 32, "evgeniy@shop.ru",
                 JobRole.CONSULTANT);
 
         return personal;

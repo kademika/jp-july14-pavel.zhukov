@@ -31,7 +31,7 @@ public class Launcher {
 
         TransactionTable tt = new TransactionTable(shop, report);
 
-//		ShopUI_v2 ui = new ShopUI_v2(shop_v1, report);
+//		ShopUI_v2 ui = new ShopUI_v2(shop, report);
 
     }
 

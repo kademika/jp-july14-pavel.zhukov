@@ -54,11 +54,11 @@ public class TestData {
     public ArrayList<Personal> arrayPersonal() {
         ArrayList<Personal> personal = new ArrayList<>();
 
-        personal.add(new Personal("Shevchuk Oksana", 25, "oksana@shop_v1.ru"));
-        personal.add(new Personal("Vinnikova Lilia", 32, "lilia@shop_v1.ru"));
-        personal.add(new Personal("Ovchinnik Nikolay", 28, "nikolay@shop_v1.ru"));
-        personal.add(new Personal("Reznikov Stas", 23, "stats@shop_v1.ru"));
-        personal.add(new Personal("Pahmutov Evgeniy", 32, "evgeniy@shop_v1.ru"));
+        personal.add(new Personal("Shevchuk Oksana", 25, "oksana@shop.ru"));
+        personal.add(new Personal("Vinnikova Lilia", 32, "lilia@shop.ru"));
+        personal.add(new Personal("Ovchinnik Nikolay", 28, "nikolay@shop.ru"));
+        personal.add(new Personal("Reznikov Stas", 23, "stats@shop.ru"));
+        personal.add(new Personal("Pahmutov Evgeniy", 32, "evgeniy@shop.ru"));
 
         return personal;
     }

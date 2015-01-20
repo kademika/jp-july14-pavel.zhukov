@@ -9,7 +9,7 @@ public class Personal {
     private int age;
 
     public Personal(String fio, int age) {
-        this(fio, age, "info@shop_v1.com");
+        this(fio, age, "info@shop.com");
     }
 
     public Personal(String fio, int age, String email) {
