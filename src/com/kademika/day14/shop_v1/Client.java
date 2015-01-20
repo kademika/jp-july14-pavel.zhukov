@@ -1,4 +1,4 @@
-package com.kademika.day14.shop;
+package com.kademika.day14.shop_v1;
 
 import java.io.Serializable;
 

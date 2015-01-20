@@ -1,4 +1,4 @@
-package com.kademika.day14.shop.db;
+package com.kademika.day14.shop_v1.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,10 +1,10 @@
-package com.kademika.day14.shop;
+package com.kademika.day14.shop_v1;
 
-import com.kademika.day14.shop.db.*;
-import com.kademika.day14.shop.watches.Mechanic;
-import com.kademika.day14.shop.watches.Quartz;
-import com.kademika.day14.shop.watches.Watch;
-import com.kademika.day14.shop.watches.WatchType;
+import com.kademika.day14.shop_v1.db.*;
+import com.kademika.day14.shop_v1.watches.Mechanic;
+import com.kademika.day14.shop_v1.watches.Quartz;
+import com.kademika.day14.shop_v1.watches.Watch;
+import com.kademika.day14.shop_v1.watches.WatchType;
 
 import java.sql.Date;
 import java.util.ArrayList;

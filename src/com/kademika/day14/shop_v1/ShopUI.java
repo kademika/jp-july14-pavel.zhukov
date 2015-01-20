@@ -1,7 +1,7 @@
-package com.kademika.day14.shop;
+package com.kademika.day14.shop_v1;
 
-import com.kademika.day14.shop.db.DBConnection;
-import com.kademika.day14.shop.watches.Watch;
+import com.kademika.day14.shop_v1.db.DBConnection;
+import com.kademika.day14.shop_v1.watches.Watch;
 
 import javax.swing.*;
 import java.awt.*;

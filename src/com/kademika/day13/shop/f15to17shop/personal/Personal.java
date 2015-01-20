@@ -7,7 +7,7 @@ public class Personal {
 	protected JobRole role;
 	
 	public Personal(String fio, int age) {
-		this(fio, age, "info@shop.com", JobRole.CONSULTANT);
+		this(fio, age, "info@shop_v1.com", JobRole.CONSULTANT);
 	}
 
 	public Personal(String fio, int age, String email, JobRole role) {

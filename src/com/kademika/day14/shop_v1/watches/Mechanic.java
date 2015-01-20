@@ -1,4 +1,4 @@
-package com.kademika.day14.shop.watches;
+package com.kademika.day14.shop_v1.watches;
 
 public class Mechanic extends Watch {
     private int numberArrows;

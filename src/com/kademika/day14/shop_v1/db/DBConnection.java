@@ -1,4 +1,4 @@
-package com.kademika.day14.shop.db;
+package com.kademika.day14.shop_v1.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class DBConnection {
     private String user = "root";
     private String password = "";
-    private String url = "jdbc:mysql://localhost:3306/shop";
+    private String url = "jdbc:mysql://localhost:3306/shop_v1";
     private String driver = "com.mysql.jdbc.Driver";
     private Connection connection = null;
     private int numClient;

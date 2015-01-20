@@ -58,7 +58,7 @@ public class Report {
                 info[i] = "Null copy";
             }
         }
-        System.out.println("In the shop found " + p + " types of products");
+        System.out.println("In the shop_v1 found " + p + " types of products");
         System.out.println("-----------------------------------------");
         return info;
     }
@@ -76,7 +76,7 @@ public class Report {
                 info[i] = "Null copy";
             }
         }
-        System.out.println("In the shop found " + count + " products");
+        System.out.println("In the shop_v1 found " + count + " products");
         System.out.println("-----------------------------------------");
         return info;
     }
