@@ -1,5 +1,6 @@
 package com.kademika.day14.shop_v2;
 
+import com.kademika.day14.shop_v2.client.Client;
 import com.kademika.day14.shop_v2.db.*;
 import com.kademika.day14.shop_v2.watches.Mechanic;
 import com.kademika.day14.shop_v2.watches.Quartz;

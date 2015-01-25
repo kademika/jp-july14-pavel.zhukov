@@ -25,7 +25,7 @@ public class TransactionTests {
         client = new Client("Ivanov Ivan", "ivan@yandex.ru", "530215");
         watch = new Quartz("Diesel DZ7285", 162, WatchType.Wrist, "1009", 5, 450, true, "Men, waterproof, second time zone, arab numerals");
         num = 1;
-        seller = new Personal("Shevchuk Oksana", 25, "oksana@shop_v1.ru");
+        seller = new Personal("Shevchuk Oksana", 25, "oksana@shop.ru");
         tr = new Transaction(client, watch, num, seller);
     }
 
