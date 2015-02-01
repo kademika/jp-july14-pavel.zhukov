@@ -6,11 +6,14 @@ public class Client implements Serializable {
     private String fio;
     private String email;
     private String tel;
+    private int id;
+    private ClientOperations clientOperations;
 
     public Client(String fio, String email, String tel) {
         this.fio = fio;
         this.email = email;
         this.tel = tel;
+        clientOperations = new ClientOperations();
     }
 
     public String getFio() {
@@ -37,4 +40,11 @@ public class Client implements Serializable {
         this.tel = tel;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

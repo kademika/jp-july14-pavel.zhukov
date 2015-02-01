@@ -1,7 +1,6 @@
 package com.kademika.day14.shop_v2.client;
 
 import com.kademika.day14.shop_v2.db.DBConnection;
-import com.kademika.day14.shop_v2.db.DBSelect;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,17 +14,15 @@ import java.util.ArrayList;
 public class ClientDB {
     private Connection connection;
     private DBConnection dbConnection;
-    private DBSelect dbSelect;
 
     public ClientDB() {
         dbConnection = new DBConnection();
         connection = dbConnection.getConnection();
-        dbSelect = new DBSelect(dbConnection);
     }
 
     //***************************************************************************
-//    delete Client
-//***************************************************************************
+    //    delete Client
+    //***************************************************************************
     public void deleteClient(int id) {
         try {
             PreparedStatement pst = connection.prepareStatement("DELETE FROM client where id=?");
@@ -34,11 +31,12 @@ public class ClientDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        closeClientDB();
     }
 
     //***************************************************************************
-//    insert Client
-//***************************************************************************
+    //    insert Client
+    //***************************************************************************
     public void insertClient(Client client) {
         try {
             PreparedStatement pst = connection.prepareStatement("INSERT INTO client (id, fio, email, tel) VALUES (last_insert_id(), ?, ?, ?)");
@@ -49,27 +47,31 @@ public class ClientDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        closeClientDB();
     }
 
-//***************************************************************************
-//    select Client
-//***************************************************************************
+    //***************************************************************************
+    //    select Client
+    //***************************************************************************
 
     public ArrayList<Client> selectClients() {
         ArrayList<Client> clients = new ArrayList<>();
-        int numClients = 0;
+        Client client;
+//        int numClients = 0;
         try {
             Statement st = connection.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM client ORDER BY id");
             while (rs.next()) {
 //                System.out.println(rs.getString(2) + " " + rs.getString(3) + " " + rs.getString(4));
-                clients.add(new Client(rs.getString(2), rs.getString(3), rs.getString(4)));
-                numClients = rs.getInt(1);
+                client = new Client(rs.getString(2), rs.getString(3), rs.getString(4));
+                clients.add(client);
+                client.setId(rs.getInt(1));
+//                numClients = rs.getInt(1);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        dbConnection.setNumClient(numClients);
+        closeClientDB();
         return clients;
     }
 
@@ -85,6 +87,7 @@ public class ClientDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        closeClientDB();
         return client;
     }
 
@@ -101,12 +104,13 @@ public class ClientDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        closeClientDB();
         return id;
     }
 
-//***************************************************************************
-//    update Client
-//***************************************************************************
+    //***************************************************************************
+    //    update Client
+    //***************************************************************************
 
     public void updateClient(Client client, String fio, String email, String tel) {
         String upFio = client.getFio();
@@ -116,7 +120,7 @@ public class ClientDB {
         if (!fio.equals("")) upFio = fio;
         if (!email.equals("")) upEmail = email;
         if (!tel.equals("")) upTel = tel;
-        id = dbSelect.selectIdClientByParam(client.getFio(), client.getEmail());
+        id = selectIdClientByParam(client.getFio(), client.getEmail());
 
         try {
             PreparedStatement pst = connection.prepareStatement
@@ -129,5 +133,10 @@ public class ClientDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        closeClientDB();
+    }
+
+    public void closeClientDB(){
+        dbConnection.closeConnection();
     }
 }

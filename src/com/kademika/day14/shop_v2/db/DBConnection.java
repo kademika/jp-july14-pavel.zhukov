@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class DBConnection {
     private String user = "root";
     private String password = "";
-    private String url = "jdbc:mysql://localhost:3306/shop_v2";
+    private String url = "jdbc:mysql://localhost:3306/shop";
     private String driver = "com.mysql.jdbc.Driver";
     private Connection connection = null;
     private int numClient;
