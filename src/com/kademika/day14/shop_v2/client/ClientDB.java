@@ -23,21 +23,23 @@ public class ClientDB {
     //***************************************************************************
     //    delete Client
     //***************************************************************************
-    public void deleteClient(int id) {
+    public boolean deleteClient(int id) {
         try {
             PreparedStatement pst = connection.prepareStatement("DELETE FROM client where id=?");
             pst.setInt(1, id);
             if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to delete data from the database.");
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            return false;
         }
         closeClientDB();
+        return true;
     }
 
     //***************************************************************************
     //    insert Client
     //***************************************************************************
-    public void insertClient(Client client) {
+    public boolean insertClient(Client client) {
         try {
             PreparedStatement pst = connection.prepareStatement("INSERT INTO client (id, fio, email, tel) VALUES (last_insert_id(), ?, ?, ?)");
             pst.setString(1, client.getFio());
@@ -45,9 +47,11 @@ public class ClientDB {
             pst.setString(3, client.getTel());
             if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to add data to the database.");
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            return false;
         }
         closeClientDB();
+        return true;
     }
 
     //***************************************************************************
@@ -112,7 +116,7 @@ public class ClientDB {
     //    update Client
     //***************************************************************************
 
-    public void updateClient(Client client, String fio, String email, String tel) {
+    public boolean updateClient(Client client, String fio, String email, String tel) {
         String upFio = client.getFio();
         String upEmail = client.getEmail();
         String upTel = client.getTel();
@@ -131,12 +135,14 @@ public class ClientDB {
             pst.setInt(4, id);
             if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to update data in the database.");
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            return false;
         }
         closeClientDB();
+        return true;
     }
 
-    public void closeClientDB(){
+    public void closeClientDB() {
         dbConnection.closeConnection();
     }
 }
