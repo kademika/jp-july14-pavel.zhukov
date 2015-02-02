@@ -2,6 +2,7 @@ package com.kademika.day14.shop_v2;
 
 
 import com.kademika.day14.shop_v2.client.Client;
+import com.kademika.day14.shop_v2.personal.Personal;
 import com.kademika.day14.shop_v2.watches.Watch;
 
 import java.io.Serializable;

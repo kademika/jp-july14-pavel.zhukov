@@ -1,4 +1,4 @@
-package com.kademika.day14.shop_v2.client;
+package com.kademika.day14.shop_v2.personal;
 
 import com.kademika.day14.shop_v2.db.DBConnection;
 
@@ -9,100 +9,104 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
- * Created by Admin on 26.01.2015.
+ * Created by Admin on 02.02.2015.
  */
-public class ClientDB {
+public class PersonalDB {
     private Connection connection;
     private DBConnection dbConnection;
 
-    public ClientDB() {
+    public PersonalDB() {
         dbConnection = new DBConnection();
         connection = dbConnection.getConnection();
     }
 
     //***************************************************************************
-    //    delete Client
+    //    delete Personal
     //***************************************************************************
-    public boolean deleteClient(int id) {
+
+    public boolean deletePersonal(int id) {
         try {
-            PreparedStatement pst = connection.prepareStatement("DELETE FROM client where id=?");
+            PreparedStatement pst = connection.prepareStatement("DELETE FROM personal where id=?");
             pst.setInt(1, id);
             if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to delete data from the database.");
         } catch (Exception e) {
 //            e.printStackTrace();
             return false;
         }
-        closeClientDB();
+        closePersonalDB();
         return true;
     }
 
     //***************************************************************************
-    //    insert Client
+    //    insert Personal
     //***************************************************************************
-    public boolean insertClient(Client client) {
+
+    public boolean insertPersonal(Personal personal) {
         try {
-            PreparedStatement pst = connection.prepareStatement("INSERT INTO client (id, fio, email, tel) VALUES (last_insert_id(), ?, ?, ?)");
-            pst.setString(1, client.getFio());
-            pst.setString(2, client.getEmail());
-            pst.setString(3, client.getTel());
+            PreparedStatement pst = connection.prepareStatement("INSERT INTO personal (id, fio, age, email) VALUES (last_insert_id(), ?, ?, ?)");
+            pst.setString(1, personal.getFio());
+            pst.setInt(2, personal.getAge());
+            pst.setString(3, personal.getEmail());
             if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to add data to the database.");
         } catch (Exception e) {
 //            e.printStackTrace();
             return false;
         }
-        closeClientDB();
+        closePersonalDB();
         return true;
     }
 
     //***************************************************************************
-    //    select Client
+    //    select Personal
     //***************************************************************************
 
-    public ArrayList<Client> selectClients() {
-        ArrayList<Client> clients = new ArrayList<>();
-        Client client;
-        int numClients = 0;
+    public ArrayList<Personal> selectPersonal() {
+        ArrayList<Personal> personal = new ArrayList<>();
+        Personal pers;
+        int numPers = 0;
+
         try {
             Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM client ORDER BY id");
+            ResultSet rs = st.executeQuery("SELECT * FROM personal ORDER BY id");
             while (rs.next()) {
 //                System.out.println(rs.getString(2) + " " + rs.getString(3) + " " + rs.getString(4));
-                client = new Client(rs.getString(2), rs.getString(3), rs.getString(4));
-                clients.add(client);
-                client.setId(rs.getInt(1));
-                numClients++;
+                pers = new Personal(rs.getString(2), rs.getInt(3), rs.getString(4));
+                personal.add(pers);
+                pers.setId(rs.getInt(1));
+                numPers++;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        closeClientDB();
-        dbConnection.setNumClient(numClients);
-        return clients;
+        dbConnection.setNumPersonal(numPers);
+        closePersonalDB();
+        return personal;
     }
 
-    public Client selectClientById(int id) {
-        Client client = null;
+
+    public Personal selectPersonalById(int id) {
+        Personal personal = null;
         try {
-            PreparedStatement pst = connection.prepareStatement("SELECT * FROM client WHERE id=?");
+            PreparedStatement pst = connection.prepareStatement("SELECT * FROM personal WHERE id=?");
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                client = new Client(rs.getString(2), rs.getString(3), rs.getString(4));
-                client.setId(id);
+                personal = new Personal(rs.getString(2), rs.getInt(3), rs.getString(4));
+                personal.setId(id);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        closeClientDB();
-        return client;
+//        closePersonalDB();
+        return personal;
     }
 
-    public int selectIdClientByParam(String fio, String email) {
+    public int selectIdPersByParam(String fio, int age) {
         int id = 0;
         try {
-            PreparedStatement pst = connection.prepareStatement("SELECT id FROM client WHERE fio=? AND email=?");
+            PreparedStatement pst = connection.prepareStatement("SELECT id FROM personal WHERE fio=? AND age=?");
             pst.setString(1, fio);
-            pst.setString(2, email);
+            pst.setInt(2, age);
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 id = rs.getInt(1);
@@ -110,41 +114,40 @@ public class ClientDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        closeClientDB();
+//        closePersonalDB();
         return id;
     }
 
     //***************************************************************************
-    //    update Client
+    //    update Personal
     //***************************************************************************
 
-    public boolean updateClient(Client client, String fio, String email, String tel) {
-        String upFio = client.getFio();
-        String upEmail = client.getEmail();
-        String upTel = client.getTel();
+    public boolean updatePersonal(Personal personal, String fio, int age, String email) {
+        String upFio = personal.getFio();
+        String upEmail = personal.getEmail();
+        int upAge = personal.getAge();
         int id = 0;
         if (!fio.equals("")) upFio = fio;
         if (!email.equals("")) upEmail = email;
-        if (!tel.equals("")) upTel = tel;
-        id = selectIdClientByParam(client.getFio(), client.getEmail());
+        if (age > 0) upAge = age;
+        id = selectIdPersByParam(personal.getFio(), personal.getAge());
 
         try {
             PreparedStatement pst = connection.prepareStatement
-                    ("UPDATE client SET fio = ?, email = ?, tel = ? WHERE id = ?");
+                    ("UPDATE client SET fio = ?, age = ?, email = ? WHERE id = ?");
             pst.setString(1, upFio);
-            pst.setString(2, upEmail);
-            pst.setString(3, upTel);
+            pst.setString(3, upEmail);
+            pst.setInt(2, upAge);
             pst.setInt(4, id);
             if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to update data in the database.");
         } catch (Exception e) {
-//            e.printStackTrace();
             return false;
         }
-        closeClientDB();
+        closePersonalDB();
         return true;
-    }
+}
 
-    public void closeClientDB() {
+    public void closePersonalDB() {
         dbConnection.closeConnection();
     }
 }

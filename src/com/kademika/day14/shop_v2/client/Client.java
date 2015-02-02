@@ -7,13 +7,11 @@ public class Client implements Serializable {
     private String email;
     private String tel;
     private int id;
-    private ClientOperations clientOperations;
 
     public Client(String fio, String email, String tel) {
         this.fio = fio;
         this.email = email;
         this.tel = tel;
-        clientOperations = new ClientOperations();
     }
 
     public String getFio() {

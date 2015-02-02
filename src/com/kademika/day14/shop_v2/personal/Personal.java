@@ -1,4 +1,4 @@
-package com.kademika.day14.shop_v2;
+package com.kademika.day14.shop_v2.personal;
 
 import java.io.Serializable;
 
@@ -9,6 +9,7 @@ public class Personal implements Serializable {
     private String fio;
     private String email;
     private int age;
+    private int id;
 
     public Personal(String fio, int age) {
         this(fio, age, "info@shop_v2.com");
@@ -44,4 +45,11 @@ public class Personal implements Serializable {
         this.age = age;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
