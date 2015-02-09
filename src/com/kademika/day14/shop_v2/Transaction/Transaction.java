@@ -1,4 +1,4 @@
-package com.kademika.day14.shop_v2;
+package com.kademika.day14.shop_v2.Transaction;
 
 
 import com.kademika.day14.shop_v2.client.Client;
