@@ -1,19 +1,22 @@
 package com.kademika.day14.shop_v2;
 
-import com.kademika.day14.shop_v2.Transaction.Transaction;
+import com.kademika.day14.shop_v2.transactions.Transaction;
 import com.kademika.day14.shop_v2.db.*;
+import com.kademika.day14.shop_v2.transactions.TransactionOperations;
 import com.kademika.day14.shop_v2.watches.Watch;
 
 import java.util.ArrayList;
 
 public class Report {
     //    private int[] productsOnWeek;
-    private DBSelect dbSelect;
+//    private DBSelect dbSelect;
     private DBConnection dbConnection;
+    private TransactionOperations transactionOperations;
 
-    public Report(DBConnection dbConnection) {
+    public Report() {
 //        productsOnWeek = new int[7];
-        dbSelect = new DBSelect(dbConnection);
+//        dbSelect = new DBSelect(dbConnection);
+        transactionOperations = new TransactionOperations();
     }
 
     private boolean isNullCopy(Watch watch) {
@@ -82,7 +85,7 @@ public class Report {
 //    }
 
     public ArrayList<String> getTransactions() {
-        ArrayList<Transaction> transactions = dbSelect.selectTransactions();
+        ArrayList<Transaction> transactions = transactionOperations.getAllTrans();
         double oneDayTotalPrice = 0;
         int oneDayProducts = 0;
         if (!transactions.isEmpty()) {
@@ -118,14 +121,14 @@ public class Report {
         }
     }
 
-//    public ArrayList<String>[] getWeekTransactions(ArrayList<Transaction>[] transactionsPerWeek) {
+//    public ArrayList<String>[] getWeekTransactions(ArrayList<transaction>[] transactionsPerWeek) {
 //        int weekProducts = 0;
 //        double weekTotalPrice = 0;
 //        ArrayList<String>[] infoArray = new ArrayList[7];
 //        for (int i = 0; i < 7; i++) {
 //            ArrayList<String> info = new ArrayList<>();
 //            if (!transactionsPerWeek[i].isEmpty()) {
-//                for (Transaction tr : transactionsPerWeek[i]) {
+//                for (transaction tr : transactionsPerWeek[i]) {
 //                    if (tr != null) {
 //                        weekProducts += tr.getNumber();
 //                        weekTotalPrice += tr.getTotalPrice();
@@ -159,11 +162,11 @@ public class Report {
 //        return infoArray;
 //    }
 
-//    public String getNumWeekSoldProducts(ArrayList<Transaction>[] transactionsPerWeek) {
+//    public String getNumWeekSoldProducts(ArrayList<transaction>[] transactionsPerWeek) {
 //        String tmp = "";
 //        for (int i = 0; i < transactionsPerWeek.length; i++) {
 //            if (transactionsPerWeek[i] != null) {
-//                for (Transaction tr : transactionsPerWeek[i]) {
+//                for (transaction tr : transactionsPerWeek[i]) {
 //                    if (tr != null) {
 //                        productsOnWeek[i] += tr.getNumber();
 //                    }
@@ -174,12 +177,12 @@ public class Report {
 //        return "Number of watches sold per week " + tmp;
 //    }
 
-//    public String getNumWeekTransactions(ArrayList<Transaction>[] transactionsPerWeek) {
+//    public String getNumWeekTransactions(ArrayList<transaction>[] transactionsPerWeek) {
 //        String tmp = "";
 //        int count = 0;
 //        for (int i = 0; i < transactionsPerWeek.length; i++) {
 //            if (transactionsPerWeek[i] != null) {
-//                for (Transaction tr : transactionsPerWeek[i]) {
+//                for (transaction tr : transactionsPerWeek[i]) {
 //                    if (tr != null) {
 //                        count++;
 //                    }
@@ -201,8 +204,8 @@ public class Report {
 
     public String getLastTransaction(Shop shop) {
         dbConnection = new DBConnection();
-        dbSelect = new DBSelect(dbConnection);
-        ArrayList<Transaction> transactions = dbSelect.selectTransactions();
+//        dbSelect = new DBSelect(dbConnection);
+        ArrayList<Transaction> transactions = transactionOperations.getAllTrans();
         Transaction tmp = transactions.get(transactions.size() - 1);
 //
 //        int k = -1;

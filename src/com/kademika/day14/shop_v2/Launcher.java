@@ -1,14 +1,12 @@
 package com.kademika.day14.shop_v2;
 
-import com.kademika.day14.shop_v2.client.ClientOperations;
-
 public class Launcher {
 
 
     public static void main(String[] args) {
-        ClientOperations co = new ClientOperations();
-        int k = co.getIdClientByParam("Litvin Andrey1", "andrey@mail.ru");
-        System.out.println(co.checkClientById(k));
+//        ClientOperations co = new ClientOperations();
+//        int k = co.getIdClientByParam("Litvin Andrey1", "andrey@mail.ru");
+//        System.out.println(co.checkClientById(k));
 
 //        DBConnection dbConnection = new DBConnection();
 ////        DBSelect dbSelect = new DBSelect(dbConnection);
@@ -17,22 +15,22 @@ public class Launcher {
 ////        DBUpdate dbUpdate = new DBUpdate(dbConnection);
 //
 ////        TestData td = new TestData();
-//        Report report = new Report(dbConnection);
+        Report report = new Report();
 ////
 ////        ArrayList<Client> clients = dbSelect.selectClients();
 ////        ArrayList<Personal> personal = dbSelect.selectPersonal();
 ////        ArrayList<Watch> watches = dbSelect.selectWatches();
-////        ArrayList<Transaction> transactions = dbSelect.selectTransactions();
+////        ArrayList<transaction> transactions = dbSelect.selectTransactions();
 //
 ////        dbInsert.insertClient(new Client("Kukushkin Ivan", "ivan@gmail.com", "557446"));
 ////        dbInsert.insertPersonal(new Personal("Shevchuk Oksana11", 26, "oksana@shop_v2.ru"));
 ////        dbInsert.insertWatch(new Quartz("Casio EQW-A1000DB-1A", 193, WatchType.Wrist, "1001", 4, 500, true, "Men, waterproof, stopwatch, countdown timer, perpetual calendar"));
 ////        dbDelete.deleteWatch("1012");
 ////
-//        Shop shop = new Shop(dbConnection);
+        Shop shop = new Shop();
 ////
 ////        getTransactionsList(shop_v2);
-//        ShopUI shopUI = new ShopUI(shop, report, dbConnection);
+        ShopUI shopUI = new ShopUI(shop, report);
 //
 //
 ////        dbUpdate.updateClient(new Client("Sidorov Semen1", "semen@yandex.ru", "89198526344"), "Sidorov Semen", "", "89198526355");

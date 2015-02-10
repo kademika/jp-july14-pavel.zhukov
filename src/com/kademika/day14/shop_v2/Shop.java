@@ -1,13 +1,13 @@
 package com.kademika.day14.shop_v2;
 
-import com.kademika.day14.shop_v2.Transaction.Transaction;
+import com.kademika.day14.shop_v2.client.ClientOperations;
+import com.kademika.day14.shop_v2.personal.PersonalOperations;
+import com.kademika.day14.shop_v2.transactions.Transaction;
 import com.kademika.day14.shop_v2.client.Client;
 import com.kademika.day14.shop_v2.db.*;
 import com.kademika.day14.shop_v2.personal.Personal;
-import com.kademika.day14.shop_v2.watches.Mechanic;
-import com.kademika.day14.shop_v2.watches.Quartz;
-import com.kademika.day14.shop_v2.watches.Watch;
-import com.kademika.day14.shop_v2.watches.WatchType;
+import com.kademika.day14.shop_v2.transactions.TransactionOperations;
+import com.kademika.day14.shop_v2.watches.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -25,24 +25,33 @@ public class Shop {
     private ArrayList<Integer> numberBoughtWatches;
     //    private ArrayList<Integer>[] numBoughtWatchesPerWeek;
     private ArrayList<Transaction> transactions;
-    //    private ArrayList<Transaction>[] transactionsPerWeek;
+    //    private ArrayList<transaction>[] transactionsPerWeek;
     private int day;
     private boolean isBought = false;
     private int idTransaction;
     private DBConnection dbConnection;
-    private DBSelect dbSelect;
-    private DBInsert dbInsert;
-    private DBDelete dbDelete;
-    private DBUpdate dbUpdate;
+    //    private DBSelect dbSelect;
+//    private DBInsert dbInsert;
+//    private DBDelete dbDelete;
+//    private DBUpdate dbUpdate;
+    private TransactionOperations transactionOperations;
+    private ClientOperations clientOperations;
+    private PersonalOperations personalOperations;
+    private WatchOperations watchOperations;
     private Date date;
 
-    public Shop(DBConnection dbConnection) {
-        this.dbConnection = dbConnection;
+    public Shop() {
+//        this.dbConnection = dbConnection;
 
-        dbSelect = new DBSelect(dbConnection);
-        dbInsert = new DBInsert(dbConnection);
-        dbDelete = new DBDelete(dbConnection);
-        dbUpdate = new DBUpdate(dbConnection);
+        transactionOperations = new TransactionOperations();
+        clientOperations = new ClientOperations();
+        personalOperations = new PersonalOperations();
+        watchOperations = new WatchOperations();
+
+//        dbSelect = new DBSelect(dbConnection);
+//        dbInsert = new DBInsert(dbConnection);
+//        dbDelete = new DBDelete(dbConnection);
+//        dbUpdate = new DBUpdate(dbConnection);
 
 //        ArrayList<Client> clients = dbSelect.selectClients();
 //        ArrayList<Personal> personal = dbSelect.selectPersonal();
@@ -71,7 +80,7 @@ public class Shop {
 //                new ArrayList<>(),
 //                new ArrayList<>()
 //        };
-        transactions = new ArrayList<>();
+//        transactions = new ArrayList<>();
 //        transactionsPerWeek = new ArrayList[]{
 //                new ArrayList<>(),
 //                new ArrayList<>(),
@@ -81,12 +90,12 @@ public class Shop {
 //                new ArrayList<>(),
 //                new ArrayList<>()
 //        };
-        report = new Report(dbConnection);
+        report = new Report();
 
-        watches = dbSelect.selectWatches();
-        this.clients = dbSelect.selectClients();
-        this.personal = dbSelect.selectPersonal();
-        dbSelect.selectTransactions();
+        this.watches = watchOperations.getAllWatches();
+        this.clients = clientOperations.getAllClients();
+        this.personal = personalOperations.getAllPers();
+        this.transactions = transactionOperations.getAllTrans();
         createWatches(watches);
     }
 
@@ -121,7 +130,7 @@ public class Shop {
     }
 
     public void deleteWatchFromDB(Watch watch) {
-        dbDelete.deleteWatch(watch.getId());
+        watchOperations.deleteWatch(watch.getId());
     }
 
 //    private void setDeleteWatch(Watch watch) {
@@ -134,21 +143,21 @@ public class Shop {
                                Personal seller) {
         ArrayList<? extends Watch> arrayWatches = typeWatches(watch);
         dbConnection = new DBConnection();
-        dbSelect = new DBSelect(dbConnection);
-        dbInsert = new DBInsert(dbConnection);
-        dbDelete = new DBDelete(dbConnection);
-        dbUpdate = new DBUpdate(dbConnection);
+//        dbSelect = new DBSelect(dbConnection);
+//        dbInsert = new DBInsert(dbConnection);
+//        dbDelete = new DBDelete(dbConnection);
+//        dbUpdate = new DBUpdate(dbConnection);
         if (isAvailable(arrayWatches, watch)) {
             buyWatch(watch, number);
             if (isBought) {
                 Transaction tr = new Transaction(dbConnection.getNumTransaction() + 1, client, watch, number, getPersonal().get(0), date);
-                dbInsert.insertTransaction(tr);
+                transactionOperations.insertTrans(tr);
 //                idTransaction++;
 //                tr.setNumTransaction(dbConnection.getNumTransaction());
                 addTransaction(tr, day);
             }
         } else {
-            System.out.println("Transaction failed. Check the entered data");
+            System.out.println("transaction failed. Check the entered data");
         }
         dbConnection.closeConnection();
     }
@@ -185,7 +194,7 @@ public class Shop {
             setBuyWatch(watch, number, day);
             watch.setNumber(watch.getNumber() - number);
             isBought = true;
-            dbUpdate.updateWatch(watch, "", 0, WatchType.None, watch.getNumber(), 0, true, 0, "");
+            watchOperations.updateWatch(watch, "", 0, WatchType.None, watch.getNumber(), 0, true, 0, "");
             if (watch.getNumber() == 0) {
                 deleteWatch(watch);
             }

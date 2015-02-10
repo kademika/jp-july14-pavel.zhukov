@@ -23,8 +23,8 @@ public class ShopUI {
     private JComboBox<String> cbPersonal;
     private DBConnection dbConnection;
 
-    public ShopUI(Shop shop, Report report, DBConnection dbConnection) {
-        this.dbConnection = dbConnection;
+    public ShopUI(Shop shop, Report report) {
+//        this.dbConnection = dbConnection;
         this.shop = shop;
         this.report = report;
         JFrame frame = new JFrame("SHOP");
