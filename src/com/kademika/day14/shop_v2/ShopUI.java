@@ -1,9 +1,9 @@
 package com.kademika.day14.shop_v2;
 
-import com.kademika.day14.shop_v2.client.Client;
+import com.kademika.day14.shop_v2.domain.Client;
 import com.kademika.day14.shop_v2.db.DBConnection;
-import com.kademika.day14.shop_v2.personal.Personal;
-import com.kademika.day14.shop_v2.watches.Watch;
+import com.kademika.day14.shop_v2.domain.Personal;
+import com.kademika.day14.shop_v2.domain.Watch;
 
 import javax.swing.*;
 import java.awt.*;

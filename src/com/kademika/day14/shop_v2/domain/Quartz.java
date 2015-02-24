@@ -1,4 +1,6 @@
-package com.kademika.day14.shop_v2.watches;
+package com.kademika.day14.shop_v2.domain;
+
+import com.kademika.day14.shop_v2.watches.WatchType;
 
 public class Quartz extends Watch {
     private boolean isBacklight;

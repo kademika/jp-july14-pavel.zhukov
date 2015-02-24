@@ -1,4 +1,4 @@
-package com.kademika.day14.shop_v2.client;
+package com.kademika.day14.shop_v2.domain;
 
 import java.io.Serializable;
 

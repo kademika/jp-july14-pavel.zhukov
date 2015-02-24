@@ -1,5 +1,7 @@
 package com.kademika.day14.shop_v2.transactions;
 
+import com.kademika.day14.shop_v2.domain.Transaction;
+
 import java.util.ArrayList;
 import java.sql.Date;
 
@@ -18,13 +20,19 @@ public class TransactionOperations {
     //***************************************************************
 
     public ArrayList<Transaction> getTransByDate(Date date) {
+        ArrayList<Transaction> transactions = null;
         transactionDB = new TransactionDB();
-        return transactionDB.selectTransactionsByDate(date);
+        transactions = transactionDB.selectTransactionsByDate(date);
+        transactionDB.closeTransactionDB();
+        return transactions;
     }
 
     public ArrayList<Transaction> getAllTrans() {
+        ArrayList<Transaction> transactions = null;
         transactionDB = new TransactionDB();
-        return transactionDB.selectTransactions();
+        transactions = transactionDB.selectTransactions();
+        transactionDB.closeTransactionDB();
+        return transactions;
     }
 
     //***************************************************************
@@ -32,8 +40,11 @@ public class TransactionOperations {
     //***************************************************************
 
     public boolean insertTrans(Transaction transaction) {
+        boolean bool;
         transactionDB = new TransactionDB();
-        return transactionDB.insertTransaction(transaction);
+        bool = transactionDB.insertTransaction(transaction);
+        transactionDB.closeTransactionDB();
+        return bool;
     }
 
 }

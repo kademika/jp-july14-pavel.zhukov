@@ -1,6 +1,7 @@
 package com.kademika.day14.shop_v2.client;
 
 import com.kademika.day14.shop_v2.db.DBConnection;
+import com.kademika.day14.shop_v2.domain.Client;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,7 +33,7 @@ public class ClientDB {
 //            e.printStackTrace();
             return false;
         }
-        closeClientDB();
+//        closeClientDB();
         return true;
     }
 
@@ -50,7 +51,7 @@ public class ClientDB {
 //            e.printStackTrace();
             return false;
         }
-        closeClientDB();
+//        closeClientDB();
         return true;
     }
 
@@ -75,7 +76,7 @@ public class ClientDB {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        closeClientDB();
+//        closeClientDB();
         dbConnection.setNumClient(numClients);
         return clients;
     }
@@ -140,7 +141,7 @@ public class ClientDB {
 //            e.printStackTrace();
             return false;
         }
-        closeClientDB();
+//        closeClientDB();
         return true;
     }
 

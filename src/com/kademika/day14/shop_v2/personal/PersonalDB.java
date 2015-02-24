@@ -1,6 +1,7 @@
 package com.kademika.day14.shop_v2.personal;
 
 import com.kademika.day14.shop_v2.db.DBConnection;
+import com.kademika.day14.shop_v2.domain.Personal;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,7 +34,7 @@ public class PersonalDB {
 //            e.printStackTrace();
             return false;
         }
-        closePersonalDB();
+//        closePersonalDB();
         return true;
     }
 
@@ -52,7 +53,7 @@ public class PersonalDB {
 //            e.printStackTrace();
             return false;
         }
-        closePersonalDB();
+//        closePersonalDB();
         return true;
     }
 
@@ -79,7 +80,7 @@ public class PersonalDB {
             e.printStackTrace();
         }
         dbConnection.setNumPersonal(numPers);
-        closePersonalDB();
+//        closePersonalDB();
         return personal;
     }
 
@@ -143,7 +144,7 @@ public class PersonalDB {
         } catch (Exception e) {
             return false;
         }
-        closePersonalDB();
+//        closePersonalDB();
         return true;
 }
 

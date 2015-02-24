@@ -2,6 +2,7 @@ package com.kademika.day14.shop_v2.transactions;
 
 import com.kademika.day14.shop_v2.client.ClientOperations;
 import com.kademika.day14.shop_v2.db.DBConnection;
+import com.kademika.day14.shop_v2.domain.Transaction;
 import com.kademika.day14.shop_v2.personal.PersonalOperations;
 import com.kademika.day14.shop_v2.watches.WatchOperations;
 
@@ -51,7 +52,8 @@ public class TransactionDB {
             closeTransactionDB();
             return false;
         }
-        closeTransactionDB();
+
+//        closeTransactionDB();
         return true;
     }
 
@@ -76,7 +78,7 @@ public class TransactionDB {
             e.printStackTrace();
         }
         dbConnection.setNumTransaction(numTransactions);
-        closeTransactionDB();
+//        closeTransactionDB();
         return transactions;
     }
 
@@ -99,7 +101,7 @@ public class TransactionDB {
             e.printStackTrace();
         }
         dbConnection.setNumTransactionInDay(numTransactions);
-        closeTransactionDB();
+//        closeTransactionDB();
         return transactions;
     }
 

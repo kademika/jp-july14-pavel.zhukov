@@ -1,10 +1,10 @@
 package com.kademika.day14.shop_v2;
 
-import com.kademika.day14.shop_v2.client.Client;
-import com.kademika.day14.shop_v2.personal.Personal;
-import com.kademika.day14.shop_v2.watches.Mechanic;
-import com.kademika.day14.shop_v2.watches.Quartz;
-import com.kademika.day14.shop_v2.watches.Watch;
+import com.kademika.day14.shop_v2.domain.Client;
+import com.kademika.day14.shop_v2.domain.Personal;
+import com.kademika.day14.shop_v2.domain.Mechanic;
+import com.kademika.day14.shop_v2.domain.Quartz;
+import com.kademika.day14.shop_v2.domain.Watch;
 import com.kademika.day14.shop_v2.watches.WatchType;
 
 import java.util.ArrayList;

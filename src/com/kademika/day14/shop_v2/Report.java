@@ -1,9 +1,9 @@
 package com.kademika.day14.shop_v2;
 
-import com.kademika.day14.shop_v2.transactions.Transaction;
+import com.kademika.day14.shop_v2.domain.Transaction;
 import com.kademika.day14.shop_v2.db.*;
 import com.kademika.day14.shop_v2.transactions.TransactionOperations;
-import com.kademika.day14.shop_v2.watches.Watch;
+import com.kademika.day14.shop_v2.domain.Watch;
 
 import java.util.ArrayList;
 

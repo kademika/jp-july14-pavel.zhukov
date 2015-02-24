@@ -1,11 +1,9 @@
 package com.kademika.day14.shop_v2;
 
 import com.kademika.day14.shop_v2.client.ClientOperations;
+import com.kademika.day14.shop_v2.domain.*;
 import com.kademika.day14.shop_v2.personal.PersonalOperations;
-import com.kademika.day14.shop_v2.transactions.Transaction;
-import com.kademika.day14.shop_v2.client.Client;
 import com.kademika.day14.shop_v2.db.*;
-import com.kademika.day14.shop_v2.personal.Personal;
 import com.kademika.day14.shop_v2.transactions.TransactionOperations;
 import com.kademika.day14.shop_v2.watches.*;
 

@@ -1,5 +1,7 @@
 package com.kademika.day14.shop_v2.watches;
 
+import com.kademika.day14.shop_v2.domain.Watch;
+
 import java.util.ArrayList;
 
 /**
@@ -16,8 +18,10 @@ public class WatchOperations {
     public boolean checkWatchById(String id) {
         watchDB = new WatchDB();
         if (watchDB.selectWatchById(id) != null) {
+            watchDB.closeWatchDB();
             return true;
         }
+        watchDB.closeWatchDB();
         return false;
     }
 
@@ -26,13 +30,19 @@ public class WatchOperations {
     //***************************************************************
 
     public Watch getWatchById(String id) {
+        Watch watch = null;
         watchDB = new WatchDB();
-        return watchDB.selectWatchById(id);
+        watch = watchDB.selectWatchById(id);
+        watchDB.closeWatchDB();
+        return watch;
     }
 
     public ArrayList<Watch> getAllWatches() {
+        ArrayList<Watch> watches = null;
         watchDB = new WatchDB();
-        return watchDB.selectWatches();
+        watches = watchDB.selectWatches();
+        watchDB.closeWatchDB();
+        return watches;
     }
 
     //***************************************************************
@@ -41,8 +51,11 @@ public class WatchOperations {
 
     public boolean updateWatch(Watch watch, String name, int weight, WatchType watchType, int number,
                                double price, boolean backlight, int numberArrows, String moreFeatures) {
+        boolean bool;
         watchDB = new WatchDB();
-        return watchDB.updateWatch(watch, name, weight, watchType, number, price, backlight, numberArrows, moreFeatures);
+        bool = watchDB.updateWatch(watch, name, weight, watchType, number, price, backlight, numberArrows, moreFeatures);
+        watchDB.closeWatchDB();
+        return bool;
     }
 
     //***************************************************************
@@ -50,8 +63,11 @@ public class WatchOperations {
     //***************************************************************
 
     public boolean insertWatch(Watch watch) {
+        boolean bool;
         watchDB = new WatchDB();
-        return watchDB.insertWatch(watch);
+        bool = watchDB.insertWatch(watch);
+        watchDB.closeWatchDB();
+        return bool;
     }
 
     //***************************************************************
@@ -59,7 +75,10 @@ public class WatchOperations {
     //***************************************************************
 
     public boolean deleteWatch(String id) {
+        boolean bool;
         watchDB = new WatchDB();
-        return watchDB.deleteClient(id);
+        bool = watchDB.deleteClient(id);
+        watchDB.closeWatchDB();
+        return bool;
     }
 }

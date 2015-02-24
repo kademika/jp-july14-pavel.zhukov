@@ -1,6 +1,9 @@
 package com.kademika.day14.shop_v2.watches;
 
 import com.kademika.day14.shop_v2.db.DBConnection;
+import com.kademika.day14.shop_v2.domain.Mechanic;
+import com.kademika.day14.shop_v2.domain.Quartz;
+import com.kademika.day14.shop_v2.domain.Watch;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +34,7 @@ public class WatchDB {
         } catch (Exception e) {
             return false;
         }
-        closeWatchDB();
+//        closeWatchDB();
         return true;
     }
 
@@ -66,7 +69,7 @@ public class WatchDB {
 
                 if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to add data to the database.");
             } catch (Exception e) {
-                closeWatchDB();
+//                closeWatchDB();
                 return false;
             }
         } else {
@@ -97,11 +100,11 @@ public class WatchDB {
                 if (pst.executeUpdate() <= 0) System.out.println("Error! Unable to add data to the database.");
             } catch (Exception e) {
 //                e.printStackTrace();
-                closeWatchDB();
+//                closeWatchDB();
                 return false;
             }
         }
-        closeWatchDB();
+//        closeWatchDB();
         return true;
     }
 
@@ -154,7 +157,7 @@ public class WatchDB {
         dbConnection.setNumMechanic(numMechanic);
         dbConnection.setNumQuartz(numQuartz);
         dbConnection.setNumWatch(numWatch);
-        closeWatchDB();
+//        closeWatchDB();
         return watches;
     }
 
@@ -257,10 +260,10 @@ public class WatchDB {
             if (res <= 0) System.out.println("Error! Unable to update data in the database.");
         } catch (Exception e) {
 //            e.printStackTrace();
-            closeWatchDB();
+//            closeWatchDB();
             return false;
         }
-        closeWatchDB();
+//        closeWatchDB();
         return true;
     }
 
