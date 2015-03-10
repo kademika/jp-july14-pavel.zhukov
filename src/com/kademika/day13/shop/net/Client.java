@@ -19,9 +19,11 @@ public class Client {
 
     private ObjectInputStream inObj;
     private ObjectOutputStream outObj;
+    private DataInputStream in;
+    private DataOutputStream out;
 
     public static void main(String[] ar) {
-        serverPort = 6666; // здесь обязательно нужно указать порт к которому привязывается сервер.
+        serverPort = 8080; // здесь обязательно нужно указать порт к которому привязывается сервер.
         address = "127.0.0.1"; // это IP-адрес компьютера, где исполняется наша серверная программа.
         Client client = new Client();
         client.startClient();
@@ -44,22 +46,23 @@ public class Client {
                     OutputStream sout = socket.getOutputStream();
 
                     // Конвертируем потоки в другой тип, чтоб легче обрабатывать текстовые сообщения.
-//                    DataInputStream in = new DataInputStream(sin);
-//                    DataOutputStream out = new DataOutputStream(sout);
+
+                    out = new DataOutputStream(sout);
+                    in = new DataInputStream(sin);
 
 
-                    outObj = new ObjectOutputStream(sout);
+//                    outObj = new ObjectOutputStream(sout);
 //
 //                    // Создаем поток для чтения с клавиатуры.
 //                    BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
 //                    String line = null;
 //                    System.out.println("Type in something and press enter. Will send it to the server and tell ya what it thinks.");
 //                    System.out.println();
-                    inObj = new ObjectInputStream(sin);
-                    outObj.writeUTF("start");
-                    outObj.flush();
+
+                    checkDataFromServer("start");
+//                    inObj = new ObjectInputStream(sin);
                     while (true) {
-                        data = inObj.readObject();
+                        data = in.readUTF();
                         checkDataFromServer(data);
                         data = null;
 //                        line = keyboard.readLine(); // ждем пока пользователь введет что-то и нажмет кнопку Enter.
@@ -83,14 +86,70 @@ public class Client {
             if (data instanceof String) {
                 String command = (String) data;
                 if (command.equals("ready to transfer data")) {
-                    outObj.writeUTF("get data");
+                    out.writeUTF("get data");
+                    out.flush();
+                } else if (command.equals("start")) {
+                    out.writeUTF("start");
+                    out.flush();
+                } else if (command.equals("send data")) {
+                    Transaction trans = (Transaction) inObj.readObject();
+                    list.add(trans);
                 }
-            } else if (data instanceof Transaction) {
-                Transaction trans = (Transaction) data;
-                list.add(trans);
             }
+//            } else if (data instanceof Transaction) {
+//                Transaction trans = (Transaction) data;
+//                list.add(trans);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void writeListTransactions() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    if (list.size() > 0) {
+                        getTransactions(list);
+                    }
+                }
+            }
+        }).start();
+    }
+
+    private static ArrayList<String> getTransactions(ArrayList<Transaction> transactions) {
+        double oneDayTotalPrice = 0;
+        int oneDayProducts = 0;
+        if (!transactions.isEmpty()) {
+            ArrayList<String> info = new ArrayList<>();
+            for (Transaction tr : transactions) {
+                if (tr != null) {
+                    oneDayProducts += tr.getNumber();
+                    oneDayTotalPrice += tr.getTotalPrice();
+                    info.add("ID: " + tr.getNumTransaction()
+                            + "	Client: "
+                            + tr.getClient().getFio()
+                            + "	ID watch: " + tr.getIdProd()
+                            + "	Watch: " + tr.getName()
+                            + " price: " + tr.getPrice()
+                            + "	number: " + tr.getNumber()
+                            + "	total: " + tr.getTotalPrice()
+                            + " seller: "
+                            + tr.getSeller().getFio());
+                } else {
+                    info.add("Null transaction");
+                }
+            }
+            System.out.println("Total:	In this day sold " + oneDayProducts
+                    + " pcs. of watches for the total amount "
+                    + oneDayTotalPrice + " $");
+            System.out.println("-----------------------------------------");
+            return info;
+        } else {
+            ArrayList<String> info = new ArrayList<>();
+            info.add("No transactions");
+            return info;
         }
     }
 }
