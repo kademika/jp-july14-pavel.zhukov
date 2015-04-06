@@ -17,6 +17,7 @@ public class Server {
     private ObjectInputStream inObj;
     private ObjectOutputStream outObj;
     private DataInputStream in;
+    private DataOutputStream out;
 
     public static void main(String[] args) throws Exception {
         TestData td = new TestData();
@@ -30,7 +31,7 @@ public class Server {
 
         getTransactionsList(shop);
 
-        port = 6666;
+        port = 8080;
         Server server = new Server();
         server.startServer();
     }
@@ -120,16 +121,16 @@ public class Server {
                     InputStream sin = socket.getInputStream();
                     OutputStream sout = socket.getOutputStream();
 
-//                    inObj = new ObjectInputStream(sin);
+                    inObj = new ObjectInputStream(sin);
                     outObj = new ObjectOutputStream(sout);
 
 //                    // Конвертируем потоки в другой тип, чтоб легче обрабатывать текстовые сообщения.
-                    DataInputStream in = new DataInputStream(sin);
-//                    DataOutputStream out = new DataOutputStream(sout);
+//                    in = new DataInputStream(sin);
+//                    out = new DataOutputStream(sout);
 
 //                    String line = null;
                     while (true) {
-                        data = in.readUTF();
+                        data = inObj.readObject();
                         checkData(data);
                         data = null;
 //                        line = inObj.readUTF(); // ожидаем пока клиент пришлет строку текста.
@@ -153,11 +154,13 @@ public class Server {
                 String command = (String) data;
                 if (command.equals("start")) {
                     System.out.println("Start connection");
-                    outObj.writeUTF("ready to transfer data");
-                    outObj.flush();
+                    out.writeUTF("ready to transfer data");
+//                    out.flush();
                 } else if (command.equals("get data")) {
                     ArrayList<Transaction> trans = shop.getTransactionsPerDay()[6];
                     for (Transaction tr : trans) {
+                        out.writeUTF("send data");
+//                        out.flush();
                         outObj.writeObject(tr);
                     }
                     System.out.println("Transfer complete");
